@@ -5,9 +5,8 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-Env.Load();
-
-var defaultConnection = Environment.GetEnvironmentVariable("DB__CONNECTION") ?? throw new Exception("DB Connection Does Not Exist");
+// Env.Load();
+// var defaultConnection = Environment.GetEnvironmentVariable("DB__CONNECTION") ?? throw new Exception("DB Connection Does Not Exist");
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

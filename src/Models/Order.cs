@@ -6,7 +6,7 @@ namespace ECommerceProject.src.Models
         public Guid UserID { get; set; }
         public User AssociatedUser { get; set; } = new User();
         public Guid StoreID { get; set; }
-        public Store AssociatedStore { get; set; }
+        public Store AssociatedStore { get; set; } = new Store();
         public Order() : base(){}
     }
 }

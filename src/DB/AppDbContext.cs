@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
 using System;
 using System.Collections.Generic;
+using E_CommerceWebsiteProject.src.Models;
 
 namespace ECommerceProject.src.DB
 {
@@ -14,6 +15,7 @@ namespace ECommerceProject.src.DB
         public DbSet<Category> Categories{ get; set; }
         public DbSet<Store> Stores { get; set; }
         public DbSet<Inventory> Inventories{ get; set; }
+        public DbSet<Image> Images {get; set;}
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options){} 
 
         protected override void OnModelCreating(ModelBuilder builder){
@@ -35,7 +37,6 @@ namespace ECommerceProject.src.DB
                 .WithOne(store => store.AssociatedUser)
                 .HasForeignKey<Store>(store => store.UserID);
             });
-
             builder.Entity<Role>(entity =>
             {
                 entity.HasKey(role => role.ID);
@@ -50,7 +51,6 @@ namespace ECommerceProject.src.DB
                 .WithOne(user => user.AssociatedRole)
                 .HasForeignKey(user => user.RoleID);
             });
-
             builder.Entity<Product>(entity =>
             {
                 entity.HasKey(product => product.ID);
@@ -60,8 +60,11 @@ namespace ECommerceProject.src.DB
                 entity.Property(product => product.Price).IsRequired();
                 entity.Property(product => product.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
                 entity.Property(product => product.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+                
+                entity.HasMany(product => product.ImageList)
+                .WithOne(image => image.AssociatedProduct)
+                .HasForeignKey(image => image.ProductID);
             });
-
             builder.Entity<Category>(entity => 
             {
                 entity.HasKey(category => category.ID);
@@ -75,9 +78,7 @@ namespace ECommerceProject.src.DB
                 entity.HasMany(category => category.ProductsList)
                 .WithOne(product => product.AssocitedCategory)
                 .HasForeignKey(product => product.CategoryID);
-
             });
-
             builder.Entity<Store>(entity =>
             {
                 entity.HasIndex(store => store.ID);
@@ -94,7 +95,6 @@ namespace ECommerceProject.src.DB
                 .WithOne(inventory => inventory.AssociatedStore)
                 .HasForeignKey<Inventory>(inventory => inventory.StoreID);
             });
-
             builder.Entity<Inventory>(entity =>
             {
                 entity.HasIndex(inventory => inventory.ID);
@@ -104,6 +104,14 @@ namespace ECommerceProject.src.DB
                 entity.Property(inventory => inventory.TotalQuantity).IsRequired();
                 entity.Property(inventory => inventory.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
                 entity.Property(inventory => inventory.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            });
+            builder.Entity<Image>(entity => 
+            {
+                entity.HasKey(image => image.ID);
+                entity.Property(image => image.ID).HasDefaultValueSql("uuid_generate_v4()");
+                entity.Property(image => image.ImageName).HasMaxLength(100);
+                entity.Property(image => image.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+                entity.Property(image => image.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
 
         }
