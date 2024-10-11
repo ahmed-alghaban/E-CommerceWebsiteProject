@@ -9,14 +9,15 @@ namespace ECommerceProject.src.DB
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Category> Categories{ get; set; }
-        public DbSet<Store> Stores { get; set; }
-        public DbSet<Inventory> Inventories{ get; set; }
+        public DbSet<User> Users {get; set;}
+        public DbSet<Role> Roles {get; set;}
+        public DbSet<Product> Products {get; set;}
+        public DbSet<Category> Categories{get; set;}
+        public DbSet<Store> Stores {get; set;}
+        public DbSet<Inventory> Inventories{get; set;}
         public DbSet<Image> Images {get; set;}
-        public DbSet<Payment> Payments { get; set; }
+        public DbSet<Payment> Payments {get; set;}
+        public DbSet<Order> Orders {get; set;} 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options){} 
 
         protected override void OnModelCreating(ModelBuilder builder){
@@ -37,6 +38,10 @@ namespace ECommerceProject.src.DB
                 entity.HasOne(user => user.StoreOwner)
                 .WithOne(store => store.AssociatedUser)
                 .HasForeignKey<Store>(store => store.UserID);
+
+                entity.HasMany(user => user.OrdersList)
+                .WithOne(order => order.AssociatedUser)
+                .HasForeignKey(order => order.UserID);
             });
             builder.Entity<Role>(entity =>
             {
@@ -95,6 +100,10 @@ namespace ECommerceProject.src.DB
                 entity.HasOne(Store => Store.AssociatedInventory)
                 .WithOne(inventory => inventory.AssociatedStore)
                 .HasForeignKey<Inventory>(inventory => inventory.StoreID);
+
+                entity.HasMany(store => store.OrdersList)
+                .WithOne(orders => orders.AssociatedStore)
+                .HasForeignKey(order => order.StoreID);
             });
             builder.Entity<Inventory>(entity =>
             {
@@ -128,6 +137,17 @@ namespace ECommerceProject.src.DB
                 entity.HasOne(payment => payment.AssociatedOrder)
                 .WithOne(order => order.AssociatedPayment)
                 .HasForeignKey<Payment>(payment => payment.OrderID);
+            });
+            builder.Entity<Order>(entity => 
+            {
+                entity.HasKey(order => order.ID);
+                entity.Property(order => order.ID).HasDefaultValueSql("uuid_generate_v4()");
+                entity.Property(order => order.OrderNumber).IsRequired();
+                entity.HasIndex(order => order.OrderNumber).IsUnique();
+                entity.Property(order => order.Status).IsRequired();
+                entity.Property(order => order.TotalAmount).IsRequired();
+                entity.Property(order => order.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+                entity.Property(order => order.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
         }
     }

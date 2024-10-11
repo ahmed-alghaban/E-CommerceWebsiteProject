@@ -9,6 +9,7 @@ namespace ECommerceProject.src.Models
         public User AssociatedUser { get; set; } = new User();
         public List<Product> ProductsList { get; set; } = new List<Product>();
         public Inventory AssociatedInventory { get; set; } = new Inventory();
+        public List<Order> OrdersList { get; set; } = new List<Order>();
         public Store() : base() { }
     }
 }

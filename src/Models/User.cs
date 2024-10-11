@@ -12,6 +12,7 @@ namespace ECommerceProject.src.Models
         public Guid RoleID  { get; set; } 
         public Role AssociatedRole { get; set; } = new Role();
         public Store? StoreOwner { get; set; } = new Store();
+        public List<Order> OrdersList { get; set; } = new List<Order>();
         public User() : base(){}
 
     }
