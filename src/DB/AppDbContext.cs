@@ -16,6 +16,7 @@ namespace ECommerceProject.src.DB
         public DbSet<Store> Stores { get; set; }
         public DbSet<Inventory> Inventories{ get; set; }
         public DbSet<Image> Images {get; set;}
+        public DbSet<Payment> Payments { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options){} 
 
         protected override void OnModelCreating(ModelBuilder builder){
@@ -113,7 +114,21 @@ namespace ECommerceProject.src.DB
                 entity.Property(image => image.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
                 entity.Property(image => image.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
-
+            builder.Entity<Payment>(entity => 
+            {
+                entity.HasKey(payment => payment.ID);
+                entity.Property(payment => payment.ID).HasDefaultValueSql("uuid_generate_v4()");
+                entity.Property(payment => payment.TransactionID).IsRequired();
+                entity.HasIndex(payment => payment.TransactionID).IsUnique();
+                entity.Property(payment =>payment.PaymentMethod).IsRequired().HasMaxLength(50);
+                entity.Property(payment => payment.Amount).IsRequired();
+                entity.Property(payment => payment.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+                entity.Property(payment => payment.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+                
+                entity.HasOne(payment => payment.AssociatedOrder)
+                .WithOne(order => order.AssociatedPayment)
+                .HasForeignKey<Payment>(payment => payment.OrderID);
+            });
         }
     }
 }
