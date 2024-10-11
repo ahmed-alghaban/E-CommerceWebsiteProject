@@ -17,7 +17,8 @@ namespace ECommerceProject.src.DB
         public DbSet<Inventory> Inventories{get; set;}
         public DbSet<Image> Images {get; set;}
         public DbSet<Payment> Payments {get; set;}
-        public DbSet<Order> Orders {get; set;} 
+        public DbSet<Order> Orders {get; set;}
+        public DbSet<OrderDetail> OrderDetails {get; set;}
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options){} 
 
         protected override void OnModelCreating(ModelBuilder builder){
@@ -148,6 +149,18 @@ namespace ECommerceProject.src.DB
                 entity.Property(order => order.TotalAmount).IsRequired();
                 entity.Property(order => order.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
                 entity.Property(order => order.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            });
+            builder.Entity<OrderDetail>(entity =>
+            {
+                entity.HasKey(orderDetail => new { orderDetail.OrderID, orderDetail.ProductID});
+                
+                entity.HasOne(orderDetail => orderDetail.AssociatedOrder)
+                .WithMany(order => order.OrderDetailsList)
+                .HasForeignKey(orderDetail => orderDetail.OrderID);
+
+                entity.HasOne(orderDetail => orderDetail.AssociatedProduct)
+                .WithMany(product => product.OrderDetailsList)
+                .HasForeignKey(orderDetail => orderDetail.ProductID);
             });
         }
     }

@@ -13,6 +13,7 @@ namespace ECommerceProject.src.Models
         public string Status { get; set; } =string.Empty;
         public Payment AssociatedPayment { get; set; } = new Payment();
         public decimal TotalAmount { get; set; }
+        public ICollection<OrderDetail> OrderDetailsList{ get; set; }=new List<OrderDetail>();
         public Order() : base(){}
     }
 }

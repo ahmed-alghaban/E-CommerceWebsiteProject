@@ -3,6 +3,7 @@ using System;
 using ECommerceProject.src.DB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ECommerceProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241011143832_ordersAndPayments")]
+    partial class ordersAndPayments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,21 +143,6 @@ namespace ECommerceProject.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("ECommerceProject.src.Models.OrderDetail", b =>
-                {
-                    b.Property<Guid>("OrderID")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ProductID")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("OrderID", "ProductID");
-
-                    b.HasIndex("ProductID");
-
-                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("ECommerceProject.src.Models.Product", b =>
@@ -444,25 +432,6 @@ namespace ECommerceProject.Migrations
                     b.Navigation("AssociatedUser");
                 });
 
-            modelBuilder.Entity("ECommerceProject.src.Models.OrderDetail", b =>
-                {
-                    b.HasOne("ECommerceProject.src.Models.Order", "AssociatedOrder")
-                        .WithMany("OrderDetailsList")
-                        .HasForeignKey("OrderID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ECommerceProject.src.Models.Product", "AssociatedProduct")
-                        .WithMany("OrderDetailsList")
-                        .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AssociatedOrder");
-
-                    b.Navigation("AssociatedProduct");
-                });
-
             modelBuilder.Entity("ECommerceProject.src.Models.Product", b =>
                 {
                     b.HasOne("ECommerceProject.src.Models.Category", "AssocitedCategory")
@@ -541,15 +510,11 @@ namespace ECommerceProject.Migrations
                 {
                     b.Navigation("AssociatedPayment")
                         .IsRequired();
-
-                    b.Navigation("OrderDetailsList");
                 });
 
             modelBuilder.Entity("ECommerceProject.src.Models.Product", b =>
                 {
                     b.Navigation("ImageList");
-
-                    b.Navigation("OrderDetailsList");
                 });
 
             modelBuilder.Entity("ECommerceProject.src.Models.Role", b =>

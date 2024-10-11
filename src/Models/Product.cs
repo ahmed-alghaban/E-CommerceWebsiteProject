@@ -16,6 +16,7 @@ namespace ECommerceProject.src.Models
         public Guid StoreID { get; set; }
         public Store AssociatedStore { get; set; } = new Store();
         public List<Image> ImageList = new List<Image>();
+        public ICollection<OrderDetail> OrderDetailsList{ get; set; }=new List<OrderDetail>();
         public Product() : base() { }
     }
 }
