@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using ECommerceProject.src.Models;
 using ECommerceProject.src.Utilities;
 
@@ -13,6 +14,7 @@ namespace E_CommerceWebsiteProject.MVC.Dtos
         public Guid RoleID  { get; set; } 
         public Role AssociatedRole { get; set; } = new Role();
         public Store? StoreOwner { get; set; } = new Store();
+        [JsonIgnore]
         public List<Order> OrdersList { get; set; } = new List<Order>();
         public UserDto() : base(){}
     }
