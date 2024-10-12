@@ -8,7 +8,7 @@ namespace E_CommerceWebsiteProject.MVC.Abstarction
 
         Task<List<User>>GetAllUsersAsync();
         Task<UserDto> GetUserByIdAsync(Guid id);
-        Task<UserCreateDto> CreateUserAsync(UserCreateDto newUser);
+        Task<UserDto> CreateUserAsync(UserCreateDto newUser);
         Task<UserUpdateDto> UpdateUserAsync(Guid id , UserUpdateDto updatedUser);
         Task DeleteUserAsync(Guid id);
     }
