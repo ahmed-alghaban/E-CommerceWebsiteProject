@@ -1,6 +1,7 @@
 using System.Net;
 using E_CommerceWebsiteProject.MVC.Abstarction;
 using E_CommerceWebsiteProject.MVC.Dtos;
+using E_CommerceWebsiteProject.MVC.Dtos.Users;
 using E_CommerceWebsiteProject.MVC.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,17 +18,20 @@ namespace E_CommerceWebsiteProject.MVC.Contollers
 
         [HttpGet]
         public async Task<IActionResult> GetAllUsers(){
-            return Ok();
+            var user = await _userService.GetAllUsersAsync();
+            return Ok(user);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(Guid id){
-            return Ok();
+            var user = await _userService.GetUserByIdAsync(id);
+            return Ok(user);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser(){
-            return Ok();
+        public async Task<IActionResult> CreateUser([FromBody]UserCreateDto newUser){
+            var user = await _userService.CreateUserAsync(newUser);
+            return Ok(user);
         }
 
         [HttpPut("id")]
