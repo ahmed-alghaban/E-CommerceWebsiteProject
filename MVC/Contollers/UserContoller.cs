@@ -12,36 +12,44 @@ namespace E_CommerceWebsiteProject.MVC.Contollers
     public class UserContoller : ControllerBase
     {
         private readonly IUserService _userService;
-        public UserContoller(IUserService userService){
+        public UserContoller(IUserService userService)
+        {
             _userService = userService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllUsers(){
+        public async Task<IActionResult> GetAllUsers()
+        {
             var user = await _userService.GetAllUsersAsync();
             return Ok(user);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserById(Guid id){
+        public async Task<IActionResult> GetUserById(Guid id)
+        {
             var user = await _userService.GetUserByIdAsync(id);
             return Ok(user);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody]UserCreateDto newUser){
+        public async Task<IActionResult> CreateUser([FromBody] UserCreateDto newUser)
+        {
             var user = await _userService.CreateUserAsync(newUser);
             return Ok(user);
         }
 
-        [HttpPut("id")]
-        public async Task<IActionResult> UpdateUser(Guid id){
-            return Ok();
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UserUpdateDto updatedUser)
+        {
+            var user = await _userService.UpdateUserAsync(id, updatedUser);
+            return Ok(user);
         }
 
-        [HttpDelete("id")]
-        public async Task<IActionResult> DeleteUser(Guid id){
-            return Ok();
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(Guid id)
+        {
+            var user = await _userService.DeleteUserAsync(id);
+            return Ok(user);
         }
     }
 }

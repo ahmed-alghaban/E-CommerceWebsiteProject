@@ -12,6 +12,8 @@ namespace E_CommerceWebsiteProject.MVC.Utilities
             CreateMap<User, UserDto>();
             CreateMap<UserCreateDto, User>();
             CreateMap<User, UserCreateDto>();
+            CreateMap<UserUpdateDto, User>().ForAllMembers(opts => opts.Condition((src, dest, sMember) => sMember != null));
+            CreateMap<User, UserUpdateDto>();
 
         }
     }
