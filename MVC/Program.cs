@@ -1,6 +1,7 @@
 using DotNetEnv;
 using E_CommerceWebsiteProject.MVC.Abstarction;
 using E_CommerceWebsiteProject.MVC.Services;
+using E_CommerceWebsiteProject.MVC.Utilities;
 using ECommerceProject.src.DB;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 var app = builder.Build();
 app.UseHttpsRedirection();
+app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 app.UseHttpsRedirection();
 app.Run();

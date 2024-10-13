@@ -3,6 +3,9 @@ using E_CommerceWebsiteProject.MVC.Abstarction;
 using E_CommerceWebsiteProject.MVC.Dtos;
 using E_CommerceWebsiteProject.MVC.Dtos.Users;
 using E_CommerceWebsiteProject.MVC.Services;
+using E_CommerceWebsiteProject.MVC.Utilities;
+using ECommerceProject.src.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_CommerceWebsiteProject.MVC.Contollers
@@ -35,7 +38,26 @@ namespace E_CommerceWebsiteProject.MVC.Contollers
         public async Task<IActionResult> CreateUser([FromBody] UserCreateDto newUser)
         {
             var user = await _userService.CreateUserAsync(newUser);
-            return Ok(user);
+            try
+            {
+                var response = new ApiResponse<UserDto>
+                {
+                    IsSuccess = true,
+                    Message = "User Added Successfully",
+                    Data = user
+                };
+                return CreatedAtAction(nameof(GetAllUsers), new { id = user.ID }, response);
+            }
+            catch (Exception)
+            {
+                var response = new ApiResponse<UserDto>
+                {
+                    IsSuccess = false,
+                    Message = "there was an error try again",
+                    Data = user
+                };
+                return BadRequest(response);
+            }
         }
 
         [HttpPut("{id}")]
@@ -48,8 +70,19 @@ namespace E_CommerceWebsiteProject.MVC.Contollers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
-            var user = await _userService.DeleteUserAsync(id);
-            return Ok(user);
+            var response = new ApiResponse<User>
+            {
+                IsSuccess = false,
+                Message = "internal Sever Error",
+                Data = null
+            };
+            try{
+                await _userService.DeleteUserAsync(id);
+                return NoContent();
+            }
+            catch(Exception){
+                return BadRequest(response);
+            }
         }
     }
 }

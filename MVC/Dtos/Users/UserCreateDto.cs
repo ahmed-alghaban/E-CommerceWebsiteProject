@@ -6,7 +6,7 @@ namespace E_CommerceWebsiteProject.MVC.Dtos.Users
     {
         [Required(ErrorMessage = "First name is Required")]
         public string FirstName { get; set; } = string.Empty;
-        [Required(ErrorMessage = "Last name is Required")] 
+        [Required(ErrorMessage = "Last name is Required")]
         public string LastName { get; set; } = string.Empty;
         [Required(ErrorMessage = "Email is Required")]
         [EmailAddress(ErrorMessage = "Email is not valid")]

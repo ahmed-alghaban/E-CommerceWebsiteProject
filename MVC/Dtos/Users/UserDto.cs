@@ -5,6 +5,7 @@ namespace E_CommerceWebsiteProject.MVC.Dtos.Users
 {
     public class UserDto
     {
+        public Guid ID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
