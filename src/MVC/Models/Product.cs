@@ -11,7 +11,7 @@ namespace ECommerceProject.src.Models
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public Guid CategoryID { get; set; }
-        public Category AssocitedCategory { get; set; } = new Category();
+        public Category AssociatedCategory { get; set; } = new Category();
         public Guid InventoryID { get; set;}
         public Inventory AssociatedInventory { get; set; } = new Inventory();
         public Guid StoreID { get; set; }

@@ -42,6 +42,7 @@ namespace E_CommerceWebsiteProject.MVC.Services
             var foundRole = await _appDbContext.Roles.FindAsync(id)
             ?? throw new Exception("Role was not found");
             _mapper.Map(updatedRole, foundRole);
+            foundRole.UpdatedAt = DateTime.UtcNow;
             _appDbContext.Roles.Update(foundRole);
             await _appDbContext.SaveChangesAsync();
             return _mapper.Map<RoleDto>(foundRole);

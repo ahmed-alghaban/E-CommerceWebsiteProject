@@ -77,14 +77,14 @@ namespace ECommerceProject.src.DB
             {
                 entity.HasKey(category => category.ID);
                 entity.Property(category => category.ID).HasDefaultValueSql("uuid_generate_v4()");
-                entity.Property(category => category.CaetgoryName).IsRequired().HasMaxLength(100);
-                entity.HasIndex(category => category.CaetgoryName).IsUnique();
-                entity.Property(category => category.CaetgoryDescription);
+                entity.Property(category => category.CategoryName).IsRequired().HasMaxLength(100);
+                entity.HasIndex(category => category.CategoryName).IsUnique();
+                entity.Property(category => category.CategoryName);
                 entity.Property(category => category.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
                 entity.Property(category => category.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.HasMany(category => category.ProductsList)
-                .WithOne(product => product.AssocitedCategory)
+                .WithOne(product => product.AssociatedCategory)
                 .HasForeignKey(product => product.CategoryID);
             });
             builder.Entity<Store>(entity =>
