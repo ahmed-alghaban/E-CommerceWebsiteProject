@@ -7,10 +7,10 @@ namespace E_CommerceWebsiteProject.MVC.Abstarction
     public interface IUserService
     {
 
-        Task<List<User>>GetAllUsersAsync();
+        Task<List<User>> GetAllUsersAsync();
         Task<UserDto> GetUserByIdAsync(Guid id);
         Task<UserDto> CreateUserAsync(UserCreateDto newUser);
-        Task<UserDto?> UpdateUserAsync(Guid id , UserUpdateDto updatedUser);
+        Task<UserDto?> UpdateUserAsync(Guid id, UserUpdateDto updatedUser);
         Task<bool> DeleteUserAsync(Guid id);
     }
 }

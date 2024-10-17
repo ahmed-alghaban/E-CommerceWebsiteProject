@@ -9,19 +9,20 @@ namespace ECommerceProject.src.DB
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<User> Users {get; set;}
-        public DbSet<Role> Roles {get; set;}
-        public DbSet<Product> Products {get; set;}
-        public DbSet<Category> Categories{get; set;}
-        public DbSet<Store> Stores {get; set;}
-        public DbSet<Inventory> Inventories{get; set;}
-        public DbSet<Image> Images {get; set;}
-        public DbSet<Payment> Payments {get; set;}
-        public DbSet<Order> Orders {get; set;}
-        public DbSet<OrderDetail> OrderDetails {get; set;}
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options){} 
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Store> Stores { get; set; }
+        public DbSet<Inventory> Inventories { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        protected override void OnModelCreating(ModelBuilder builder){
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
 
             builder.Entity<User>(entity =>
             {
@@ -35,7 +36,7 @@ namespace ECommerceProject.src.DB
                 entity.Property(user => user.Password).IsRequired().HasMaxLength(200);
                 entity.Property(user => user.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
                 entity.Property(user => user.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
-                
+
                 entity.HasOne(user => user.StoreOwner)
                 .WithOne(store => store.AssociatedUser)
                 .HasForeignKey<Store>(store => store.UserID);
@@ -53,7 +54,7 @@ namespace ECommerceProject.src.DB
                 entity.Property(role => role.RoleDescription).HasMaxLength(300);
                 entity.Property(role => role.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
                 entity.Property(role => role.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
-                
+
                 entity.HasMany(role => role.UsersList)
                 .WithOne(user => user.AssociatedRole)
                 .HasForeignKey(user => user.RoleID);
@@ -67,12 +68,12 @@ namespace ECommerceProject.src.DB
                 entity.Property(product => product.Price).IsRequired();
                 entity.Property(product => product.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
                 entity.Property(product => product.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
-                
+
                 entity.HasMany(product => product.ImageList)
                 .WithOne(image => image.AssociatedProduct)
                 .HasForeignKey(image => image.ProductID);
             });
-            builder.Entity<Category>(entity => 
+            builder.Entity<Category>(entity =>
             {
                 entity.HasKey(category => category.ID);
                 entity.Property(category => category.ID).HasDefaultValueSql("uuid_generate_v4()");
@@ -81,7 +82,7 @@ namespace ECommerceProject.src.DB
                 entity.Property(category => category.CaetgoryDescription);
                 entity.Property(category => category.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
                 entity.Property(category => category.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
-                
+
                 entity.HasMany(category => category.ProductsList)
                 .WithOne(product => product.AssocitedCategory)
                 .HasForeignKey(product => product.CategoryID);
@@ -116,7 +117,7 @@ namespace ECommerceProject.src.DB
                 entity.Property(inventory => inventory.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
                 entity.Property(inventory => inventory.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
-            builder.Entity<Image>(entity => 
+            builder.Entity<Image>(entity =>
             {
                 entity.HasKey(image => image.ID);
                 entity.Property(image => image.ID).HasDefaultValueSql("uuid_generate_v4()");
@@ -124,22 +125,22 @@ namespace ECommerceProject.src.DB
                 entity.Property(image => image.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
                 entity.Property(image => image.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
-            builder.Entity<Payment>(entity => 
+            builder.Entity<Payment>(entity =>
             {
                 entity.HasKey(payment => payment.ID);
                 entity.Property(payment => payment.ID).HasDefaultValueSql("uuid_generate_v4()");
                 entity.Property(payment => payment.TransactionID).IsRequired();
                 entity.HasIndex(payment => payment.TransactionID).IsUnique();
-                entity.Property(payment =>payment.PaymentMethod).IsRequired().HasMaxLength(50);
+                entity.Property(payment => payment.PaymentMethod).IsRequired().HasMaxLength(50);
                 entity.Property(payment => payment.Amount).IsRequired();
                 entity.Property(payment => payment.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
                 entity.Property(payment => payment.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
-                
+
                 entity.HasOne(payment => payment.AssociatedOrder)
                 .WithOne(order => order.AssociatedPayment)
                 .HasForeignKey<Payment>(payment => payment.OrderID);
             });
-            builder.Entity<Order>(entity => 
+            builder.Entity<Order>(entity =>
             {
                 entity.HasKey(order => order.ID);
                 entity.Property(order => order.ID).HasDefaultValueSql("uuid_generate_v4()");
@@ -152,8 +153,8 @@ namespace ECommerceProject.src.DB
             });
             builder.Entity<OrderDetail>(entity =>
             {
-                entity.HasKey(orderDetail => new { orderDetail.OrderID, orderDetail.ProductID});
-                
+                entity.HasKey(orderDetail => new { orderDetail.OrderID, orderDetail.ProductID });
+
                 entity.HasOne(orderDetail => orderDetail.AssociatedOrder)
                 .WithMany(order => order.OrderDetailsList)
                 .HasForeignKey(orderDetail => orderDetail.OrderID);

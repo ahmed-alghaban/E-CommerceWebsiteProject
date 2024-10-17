@@ -11,7 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Env.Load();
 // var defaultConnection = Environment.GetEnvironmentVariable("DB__CONNECTION") ?? throw new Exception("DB Connection Does Not Exist");
 builder.Services.AddAutoMapper(typeof(Program));
-builder.Services.AddScoped<IUserService,UserService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IRoleService,RoleService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<AppDbContext>(options =>

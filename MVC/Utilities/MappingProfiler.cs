@@ -1,4 +1,5 @@
 using AutoMapper;
+using E_CommerceWebsiteProject.MVC.Dtos.Roles;
 using E_CommerceWebsiteProject.MVC.Dtos.Users;
 using ECommerceProject.src.Models;
 
@@ -13,8 +14,11 @@ namespace E_CommerceWebsiteProject.MVC.Utilities
             CreateMap<UserCreateDto, User>();
             CreateMap<User, UserCreateDto>();
             CreateMap<UserUpdateDto, User>().ForAllMembers(opts => opts.Condition((src, dest, sMember) => sMember != null));
-            CreateMap<User, UserUpdateDto>();
 
+            CreateMap<RoleDto, Role>();
+            CreateMap<Role, RoleDto>();
+            CreateMap<RoleCreateDto, Role>();
+            CreateMap<RoleUpdateDto, Role>().ForAllMembers(opts => opts.Condition((src, dest, sMember) => sMember != null));
         }
     }
 }
