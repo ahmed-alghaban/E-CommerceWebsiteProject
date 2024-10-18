@@ -11,15 +11,15 @@ namespace ECommerceProject.src.Models
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public Guid CategoryID { get; set; }
-        public Category AssociatedCategory { get; set; } = new Category();
+        public Category AssociatedCategory { get; set; }
         public Guid InventoryID { get; set;}
-        public Inventory AssociatedInventory { get; set; } = new Inventory();
+        public Inventory AssociatedInventory { get; set; }
         public Guid StoreID { get; set; }
-        public Store AssociatedStore { get; set; } = new Store();
+        public Store AssociatedStore { get; set; }
         [JsonIgnore]
-        public List<Image> ImageList = new List<Image>();
+        public List<Image> ImageList { get; set; }
         [JsonIgnore]
-        public ICollection<OrderDetail> OrderDetailsList{ get; set; }=new List<OrderDetail>();
+        public ICollection<OrderDetail> OrderDetailsList{ get; set; }
         public Product() : base() { }
     }
 }

@@ -10,7 +10,7 @@ namespace E_CommerceWebsiteProject.src.Models
         public string PaymentMethod { get; set; } = string.Empty ;
         public string Status { get; set; } = string.Empty;
         public Guid? OrderID { get; set; }
-        public Order? AssociatedOrder { get; set; } = new Order();
+        public Order? AssociatedOrder { get; set; }
         public Payment() : base(){}
     }
 }

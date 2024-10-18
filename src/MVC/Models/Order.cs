@@ -8,14 +8,14 @@ namespace ECommerceProject.src.Models
     {
         public int OrderNumber { get; set; }
         public Guid UserID { get; set; }
-        public User AssociatedUser { get; set; } = new User();
+        public User AssociatedUser { get; set; }
         public Guid StoreID { get; set; }
-        public Store AssociatedStore { get; set; } = new Store();
+        public Store AssociatedStore { get; set; }
         public string Status { get; set; } =string.Empty;
-        public Payment AssociatedPayment { get; set; } = new Payment();
+        public Payment AssociatedPayment { get; set; }
         public decimal TotalAmount { get; set; }
         [JsonIgnore]
-        public ICollection<OrderDetail> OrderDetailsList{ get; set; }=new List<OrderDetail>();
+        public ICollection<OrderDetail> OrderDetailsList{ get; set; }
         public Order() : base(){}
     }
 }
