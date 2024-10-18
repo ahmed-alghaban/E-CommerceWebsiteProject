@@ -1,34 +1,36 @@
-using E_CommerceWebsiteProject.MVC.Abstarction;
-using E_CommerceWebsiteProject.MVC.Dtos.Roles;
+using System;
+using System.Net;
+using E_CommerceWebsiteProject.MVC.Dtos.Categories;
 using E_CommerceWebsiteProject.MVC.Utilities;
-using ECommerceProject.src.Models;
+using E_CommerceWebsiteProject.src.MVC.Abstarction;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
-namespace E_CommerceWebsiteProject.MVC.Contollers
+namespace E_CommerceWebsiteProject.src.MVC.Contollers
 {
     [ApiController]
-    [Route("api/roles")]
-    public class RoleController : ControllerBase
+    [Route("/api/categories")]
+    public class CategoryController : ControllerBase
     {
-        private readonly IRoleService _roleService;
-        public RoleController(IRoleService roleService)
+        private readonly ICategoryService _categoryService;
+        public CategoryController(ICategoryService categoryService)
         {
-            _roleService = roleService;
+            _categoryService = categoryService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllRoles()
+        public async Task<IActionResult> GetCategories()
         {
             try
             {
-                var roles = await _roleService.GetAllRolesAsync();
+                var categories = await _categoryService.GetAllCategoriesAsync();
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
                     Message = "operation done successfully",
                     Data = new
                     {
-                        userData = roles
+                        userData = categories
                     }
                 };
                 return Ok(response);
@@ -46,18 +48,18 @@ namespace E_CommerceWebsiteProject.MVC.Contollers
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetRoleById(Guid id)
+        public async Task<IActionResult> GetCategoryById(Guid id)
         {
             try
             {
-                var role = await _roleService.GetRoleByIdAsync(id);
+                var category = await _categoryService.GetCategoryByIdAsync(id);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
                     Message = "operation done successfully",
                     Data = new
                     {
-                        userData = role
+                        userData = category
                     }
                 };
                 return Ok(response);
@@ -75,16 +77,16 @@ namespace E_CommerceWebsiteProject.MVC.Contollers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateRole([FromBody] RoleCreateDto newRole)
+        public async Task<IActionResult> CreateCategory(CategoryCreateDto newCategory)
         {
             try
             {
-                var role = await _roleService.CreateRoleAsync(newRole);
+                var category = await _categoryService.CreateCategoryAsync(newCategory);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
                     Message = "Role Created successfully",
-                    Data = role
+                    Data = category
                 };
                 return Created("", response);
             }
@@ -101,16 +103,16 @@ namespace E_CommerceWebsiteProject.MVC.Contollers
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateRole(Guid id, RoleUpdateDto updatedRole)
+        public async Task<IActionResult> UpdateCategory(Guid id, CategoryUpdateDto updatedCategory)
         {
             try
             {
-                var role = await _roleService.UpdateRoleAsync(id, updatedRole);
+                var category = await _categoryService.UpdateCategoryAsync(id, updatedCategory);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
                     Message = "Role Updated Successfully",
-                    Data = role
+                    Data = category
                 };
                 return Ok(response);
             }
@@ -127,9 +129,9 @@ namespace E_CommerceWebsiteProject.MVC.Contollers
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteRole(Guid id)
+        public async Task<IActionResult> DeleteCategory(Guid id)
         {
-            var isDeleted = await _roleService.DeleteRoleAsync(id);
+            var isDeleted = await _categoryService.DeleteCategoryAsync(id);
             var response = new ApiResponse<object>
             {
                 IsSuccess = isDeleted,

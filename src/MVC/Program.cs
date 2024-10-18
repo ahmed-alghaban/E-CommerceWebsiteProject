@@ -2,6 +2,8 @@ using DotNetEnv;
 using E_CommerceWebsiteProject.MVC.Abstarction;
 using E_CommerceWebsiteProject.MVC.Services;
 using E_CommerceWebsiteProject.MVC.Utilities;
+using E_CommerceWebsiteProject.src.MVC.Abstarction;
+using E_CommerceWebsiteProject.src.MVC.Services;
 using ECommerceProject.src.DB;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<AppDbContext>(options =>

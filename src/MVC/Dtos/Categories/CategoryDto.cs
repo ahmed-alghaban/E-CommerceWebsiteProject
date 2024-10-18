@@ -8,6 +8,7 @@ namespace E_CommerceWebsiteProject.MVC.Dtos.Categories
         public Guid ID { get; set; }
         public string CategoryName { get; set; } = string.Empty;
         public string CategoryDescription { get; set; } = string.Empty;
+        public DateTime UpdatedAt { get; set; }
         [JsonIgnore]
         public List<Product> ProductsList { get; set; }
     }
