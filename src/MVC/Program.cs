@@ -8,10 +8,9 @@ using ECommerceProject.src.DB;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-// Env.Load();
-// var defaultConnection = Environment.GetEnvironmentVariable("DB__CONNECTION") ?? throw new Exception("DB Connection Does Not Exist");
+Env.Load();
+var defaultConnection = Environment.GetEnvironmentVariable("DB__CONNECTION")
+?? throw new InvalidOperationException("DB Connection Does Not Exist");
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
@@ -19,7 +18,8 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<AppDbContext>(options =>
-options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+options.UseNpgsql(defaultConnection)
+);
 var app = builder.Build();
 app.UseHttpsRedirection();
 app.UseMiddleware<ExceptionMiddleware>();
