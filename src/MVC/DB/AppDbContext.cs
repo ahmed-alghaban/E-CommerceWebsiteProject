@@ -116,6 +116,10 @@ namespace ECommerceProject.src.DB
                 entity.Property(inventory => inventory.TotalQuantity).IsRequired();
                 entity.Property(inventory => inventory.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
                 entity.Property(inventory => inventory.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.HasMany(inventory => inventory.ProductsList)
+                .WithOne(product => product.AssociatedInventory)
+                .HasForeignKey(product => product.InventoryID);
             });
             builder.Entity<Image>(entity =>
             {
