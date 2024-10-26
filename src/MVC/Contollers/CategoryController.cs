@@ -85,7 +85,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Contollers
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
-                    Message = "Role Created successfully",
+                    Message = "Category Created successfully",
                     Data = category
                 };
                 return Created("", response);
@@ -111,7 +111,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Contollers
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
-                    Message = "Role Updated Successfully",
+                    Message = "Category Updated Successfully",
                     Data = category
                 };
                 return Ok(response);
@@ -135,7 +135,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Contollers
             var response = new ApiResponse<object>
             {
                 IsSuccess = isDeleted,
-                Message = isDeleted ? "User Deleted Successfully" : "Failed to Delete User",
+                Message = isDeleted ? "Category Deleted Successfully" : "Failed to Delete Category",
                 Data = new
                 {
                     Deleted = isDeleted

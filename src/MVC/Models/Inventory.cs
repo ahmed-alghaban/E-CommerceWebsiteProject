@@ -11,6 +11,5 @@ namespace ECommerceProject.src.Models
         public Store AssociatedStore { get; set; }
         public List<Product> ProductsList { get; set; }
         public Inventory() : base() { }
-
     }
 }

@@ -2,6 +2,7 @@ using AutoMapper;
 using E_CommerceWebsiteProject.MVC.Dtos.Categories;
 using E_CommerceWebsiteProject.MVC.Dtos.Roles;
 using E_CommerceWebsiteProject.MVC.Dtos.Users;
+using E_CommerceWebsiteProject.src.MVC.Dtos.Stores;
 using ECommerceProject.src.Models;
 
 namespace E_CommerceWebsiteProject.MVC.Utilities
@@ -27,6 +28,13 @@ namespace E_CommerceWebsiteProject.MVC.Utilities
             CreateMap<CategoryCreateDto, Category>();
             CreateMap<CategoryUpdateDto, Category>()
             .ForAllMembers(opts => opts.Condition((src, dest, sMember) => sMember != null));
+
+            CreateMap<Store, StoreDto>();
+            CreateMap<StoreDto, Store>();
+            CreateMap<StoreCreateDto, Store>();
+            CreateMap<StoreUpdateDto, Store>()
+            .ForAllMembers(opts => opts.Condition((src, dest, sMember) => sMember != null));
+
         }
     }
 }

@@ -7,12 +7,14 @@ namespace ECommerceProject.src.Models
     {
         public string StoreName { get; set; } = string.Empty;
         public Guid UserID { get; set; }
-        public User AssociatedUser { get; set; } = new User();
         [JsonIgnore]
-        public List<Product> ProductsList { get; set; } = new List<Product>();
-        public Inventory AssociatedInventory { get; set; } = new Inventory();
+        public User AssociatedUser { get; set; }
         [JsonIgnore]
-        public List<Order> OrdersList { get; set; } = new List<Order>();
+        public List<Product> ProductsList { get; set; }
+        [JsonIgnore]
+        public Inventory AssociatedInventory { get; set; }
+        [JsonIgnore]
+        public List<Order> OrdersList { get; set; }
         public Store() : base() { }
     }
 }

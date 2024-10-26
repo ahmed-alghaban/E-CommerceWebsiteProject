@@ -8,12 +8,9 @@ namespace ECommerceProject.src.Utilities
 
         public BaseClass()
         {
-
             ID = Guid.Empty;
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = DateTime.UtcNow;
-
         }
-
     }
 }

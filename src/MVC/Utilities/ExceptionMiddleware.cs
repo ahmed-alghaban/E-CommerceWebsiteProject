@@ -42,7 +42,6 @@ namespace E_CommerceWebsiteProject.MVC.Utilities
                         Data = null
                     };
                     break;
-
                 case ValidationException ve:
                     statusCode = (int)HttpStatusCode.BadRequest;
                     response = new ApiResponse<object>
@@ -52,7 +51,6 @@ namespace E_CommerceWebsiteProject.MVC.Utilities
                         Data = ve.Errors
                     };
                     break;
-
                 default:
                     statusCode = (int)HttpStatusCode.InternalServerError;
                     response = new ApiResponse<object>
@@ -63,7 +61,6 @@ namespace E_CommerceWebsiteProject.MVC.Utilities
                     };
                     break;
             }
-
             context.Response.StatusCode = statusCode;
             return context.Response.WriteAsync(JsonConvert.SerializeObject(response));
         }

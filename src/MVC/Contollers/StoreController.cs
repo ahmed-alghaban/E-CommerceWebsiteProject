@@ -1,38 +1,38 @@
-using System.Net;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using E_CommerceWebsiteProject.MVC.Abstarction;
-using E_CommerceWebsiteProject.MVC.Dtos;
-using E_CommerceWebsiteProject.MVC.Dtos.Users;
-using E_CommerceWebsiteProject.MVC.Services;
 using E_CommerceWebsiteProject.MVC.Utilities;
-using ECommerceProject.src.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
+using E_CommerceWebsiteProject.src.MVC.Dtos.Stores;
 using Microsoft.AspNetCore.Mvc;
 
-namespace E_CommerceWebsiteProject.MVC.Contollers
+namespace E_CommerceWebsiteProject.src.MVC.Contollers
 {
     [ApiController]
-    [Route("api/users")]
-    public class UserController : ControllerBase
+    [Route("api/Stores")]
+    public class StoreController : ControllerBase
     {
-        private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly IStoreService _storeService;
+
+        public StoreController(IStoreService storeService)
         {
-            _userService = userService;
+            _storeService = storeService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllUsers()
+        public async Task<IActionResult> GetAllStores()
         {
             try
             {
-                var user = await _userService.GetAllUsersAsync();
+                var stores = await _storeService.GetAllStoresAsync();
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
                     Message = "operation done successfully",
                     Data = new
                     {
-                        userData = user
+                        userData = stores
                     }
                 };
                 return Ok(response);
@@ -50,18 +50,18 @@ namespace E_CommerceWebsiteProject.MVC.Contollers
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetUserById(Guid id)
+        public async Task<IActionResult> GetStoreById(Guid id)
         {
             try
             {
-                var user = await _userService.GetUserByIdAsync(id);
+                var store = await _storeService.GetStoreByIdAsync(id);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
                     Message = "operation done successfully",
                     Data = new
                     {
-                        userData = user
+                        Data = store
                     }
                 };
                 return Ok(response);
@@ -79,18 +79,18 @@ namespace E_CommerceWebsiteProject.MVC.Contollers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] UserCreateDto newUser)
+        public async Task<IActionResult> CreateStore([FromBody] StoreCreateDto newStore)
         {
-            var user = await _userService.CreateUserAsync(newUser);
             try
             {
+                var store = await _storeService.CreateStoreAsync(newStore);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
-                    Message = "User Added Successfully",
-                    Data = user
+                    Message = "Store Created successfully",
+                    Data = store
                 };
-                return CreatedAtAction(nameof(GetAllUsers), new { id = user.ID }, response);
+                return Created("", response);
             }
             catch (Exception ex)
             {
@@ -98,23 +98,23 @@ namespace E_CommerceWebsiteProject.MVC.Contollers
                 {
                     IsSuccess = false,
                     Message = ex.Message,
-                    Data = user
+                    Data = null
                 };
                 return BadRequest(response);
             }
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UserUpdateDto updatedUser)
+        public async Task<IActionResult> UpdateStore(Guid id, StoreUpdateDto updatedStore)
         {
             try
             {
-                var user = await _userService.UpdateUserAsync(id, updatedUser);
+                var store = await _storeService.UpdateStoreAsync(id, updatedStore);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
-                    Message = "User Updated successfully",
-                    Data = user
+                    Message = "Store Updated Successfully",
+                    Data = store
                 };
                 return Ok(response);
             }
@@ -131,20 +131,19 @@ namespace E_CommerceWebsiteProject.MVC.Contollers
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteUser(Guid id)
+        public async Task<IActionResult> DeleteStore(Guid id)
         {
-            var isDeleted = await _userService.DeleteUserAsync(id);
+            var isDeleted = await _storeService.DeleteStoreAsync(id);
             var response = new ApiResponse<object>
             {
                 IsSuccess = isDeleted,
-                Message = isDeleted ? "User Deleted Successfully" : "Failed to Delete User",
+                Message = isDeleted ? "Store Deleted Successfully" : "Failed to Delete Store",
                 Data = new
                 {
                     Deleted = isDeleted
                 }
             };
             return StatusCode(isDeleted ? 204 : 400, response);
-
         }
     }
 }

@@ -133,7 +133,7 @@ namespace E_CommerceWebsiteProject.MVC.Contollers
             var response = new ApiResponse<object>
             {
                 IsSuccess = isDeleted,
-                Message = isDeleted ? "User Deleted Successfully" : "Failed to Delete User",
+                Message = isDeleted ? "Role Deleted Successfully" : "Failed to Delete Role",
                 Data = new
                 {
                     Deleted = isDeleted
