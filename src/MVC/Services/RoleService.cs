@@ -19,7 +19,11 @@ namespace E_CommerceWebsiteProject.MVC.Services
 
         public async Task<List<Role>> GetAllRolesAsync()
         {
-            var roles = await _appDbContext.Roles.ToListAsync();
+            var roles = _appDbContext.Roles.Any()
+            ?
+            await _appDbContext.Roles.ToListAsync()
+            :
+            throw new Exception("There is No Roles"); ;
             return roles;
         }
         public async Task<RoleDto> GetRoleByIdAsync(Guid id)

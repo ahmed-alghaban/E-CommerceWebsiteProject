@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ECommerceProject.src.Models;
 
 namespace E_CommerceWebsiteProject.src.MVC.Dtos.Stores
 {
@@ -9,6 +10,6 @@ namespace E_CommerceWebsiteProject.src.MVC.Dtos.Stores
     {
         public Guid ID { get; set; }
         public string StoreName { get; set; }
-        public Guid UserID { get; set; }
+        public User AssociatedUser { get; set; }
     }
 }

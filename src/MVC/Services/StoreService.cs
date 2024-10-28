@@ -23,12 +23,17 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
 
         public async Task<List<Store>> GetAllStoresAsync()
         {
-            return await _appDbContext.Stores.Include(store => store.AssociatedUser).ToListAsync();
+            var stores = _appDbContext.Stores.Any()
+            ?
+            await _appDbContext.Stores.ToListAsync()
+            :
+            throw new Exception("there is no Stores");
+            return stores;
         }
 
         public async Task<StoreDto> GetStoreByIdAsync(Guid id)
         {
-            var foundStore = await _appDbContext.Stores.FindAsync(id)
+            var foundStore = await _appDbContext.Stores.Include(store => store.AssociatedUser).FirstOrDefaultAsync(store => store.ID == id)
             ?? throw new Exception("Store was not found");
             return _mapper.Map<StoreDto>(foundStore);
         }

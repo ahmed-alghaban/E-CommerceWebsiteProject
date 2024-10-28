@@ -19,7 +19,11 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
 
         public async Task<List<Category>> GetAllCategoriesAsync()
         {
-            var categories = await _appDbContext.Categories.ToListAsync();
+            var categories = _appDbContext.Categories.Any()
+            ?
+            await _appDbContext.Categories.ToListAsync()
+            :
+            throw new Exception("There is No Categories");
             return categories;
         }
 

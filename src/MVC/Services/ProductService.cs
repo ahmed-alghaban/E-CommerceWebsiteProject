@@ -20,7 +20,12 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
 
         public async Task<List<Product>> GetAllProductsAsync()
         {
-            return await _appDbContext.Products.ToListAsync();
+            var products = _appDbContext.Products.Any() 
+            ? 
+            await _appDbContext.Products.ToListAsync()
+            :
+            throw new Exception("there is no products");
+            return products;
         }
 
         public async Task<ProductDto> GetProductByIdAsync(Guid id)
@@ -35,9 +40,11 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             var createProduct = _mapper.Map<Product>(newProduct);
             await _appDbContext.Products.AddAsync(createProduct);
             await _appDbContext.SaveChangesAsync();
-            var foundInventory = await _appDbContext.Inventories.FindAsync(createProduct.StoreID)
+            Console.WriteLine($"{newProduct.InventoryID}");
+
+            var foundInventory = await _appDbContext.Inventories.FindAsync(newProduct.InventoryID)
             ?? throw new Exception("Inventory not found");
-            int numberOfProducts = _appDbContext.Products.Where(product => product.StoreID == foundInventory.StoreID).Count();
+            int numberOfProducts = _appDbContext.Products.Where(product => product.ID == foundInventory.ID).Count();
             foundInventory.NumberOfItems = numberOfProducts; // adding the number of products where the have the same store as the inventory
             foundInventory.TotalQuantity = newProduct.Quantity > 0
             ?
@@ -74,11 +81,12 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
         {
             var foundProduct = await _appDbContext.Products.FindAsync(id)
             ?? throw new Exception("product not found");
+            Console.WriteLine($"{foundProduct.StoreID}");
             var foundInventory = await _appDbContext.Inventories.FindAsync(foundProduct.StoreID)
             ?? throw new Exception("Inventory not found");
             foundInventory.TotalQuantity -= foundProduct.Quantity; //decreasing the inventory quantity before deleting the product
-            _appDbContext.Products.Remove(foundProduct);
             int numberOfProducts = _appDbContext.Products.Where(product => product.StoreID == foundInventory.StoreID).Count();
+            _appDbContext.Products.Remove(foundProduct);
             await _appDbContext.SaveChangesAsync();
             foundInventory.NumberOfItems = numberOfProducts; // replacing the old list count with the new one
             _appDbContext.Inventories.Update(foundInventory);

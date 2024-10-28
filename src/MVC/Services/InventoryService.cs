@@ -20,7 +20,12 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
 
         public async Task<List<Inventory>> GetAllInventoriesAsync()
         {
-            return await _appDbContext.Inventories.ToListAsync();
+            var inventories = _appDbContext.Inventories.Any()
+            ?
+            await _appDbContext.Inventories.ToListAsync()
+            :
+            throw new Exception("Inventory not found");
+            return inventories;
         }
 
         public async Task<InventoryDto> GetInventoryByIdAsync(Guid id)

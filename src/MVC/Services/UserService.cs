@@ -21,7 +21,11 @@ namespace E_CommerceWebsiteProject.MVC.Services
 
         public async Task<List<User>> GetAllUsersAsync()
         {
-            var users = await _appDbContext.Users.ToListAsync();
+            var users = _appDbContext.Users.Any()
+            ?
+            await _appDbContext.Users.ToListAsync()
+            :
+            throw new Exception("There is no users");
             return users;
         }
 
