@@ -7,6 +7,5 @@ namespace E_CommerceWebsiteProject.src.MVC.Dtos.Products
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public Guid CategoryID { get; set; }
-        public Guid StoreID { get; set; }
     }
 }

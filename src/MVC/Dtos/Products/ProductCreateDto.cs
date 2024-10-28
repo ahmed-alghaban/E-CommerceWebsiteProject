@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace E_CommerceWebsiteProject.src.MVC.Dtos.Products
 {
-    public class ProductsCreateDto
+    public class ProductCreateDto
     {
         [Required(ErrorMessage = "Product name is required")]
         public string ProductName { get; set; }

@@ -3,6 +3,7 @@ using E_CommerceWebsiteProject.MVC.Dtos.Categories;
 using E_CommerceWebsiteProject.MVC.Dtos.Roles;
 using E_CommerceWebsiteProject.MVC.Dtos.Users;
 using E_CommerceWebsiteProject.src.MVC.Dtos.Inventories;
+using E_CommerceWebsiteProject.src.MVC.Dtos.Products;
 using E_CommerceWebsiteProject.src.MVC.Dtos.Stores;
 using ECommerceProject.src.Models;
 
@@ -41,6 +42,16 @@ namespace E_CommerceWebsiteProject.MVC.Utilities
             CreateMap<InventoryCreateDto, Inventory>();
             CreateMap<InventoryUpdateDto, Inventory>()
             .ForAllMembers(opts => opts.Condition((src, dest, sMember) => sMember != null));
+
+            CreateMap<Product, ProductDto>();
+            CreateMap<ProductDto, Product>();
+            CreateMap<ProductCreateDto, Product>();
+            CreateMap<ProductUpdateDto, Product>()
+                .ForMember(dest => dest.Price, act => act.Condition(src => src.Price > 0))
+                .ForMember(dest => dest.Quantity, act => act.Condition(src => src.Quantity > 0))
+                .ForMember(dest => dest.ProductDescription, act => act.Condition(src => !string.IsNullOrEmpty(src.ProductDescription)))
+                .ForMember(dest => dest.CategoryID, act => act.Condition(src => src.CategoryID != Guid.Empty))
+                .ForMember(dest => dest.ProductName, act => act.Condition(src => !string.IsNullOrEmpty(src.ProductName)));
         }
     }
 }

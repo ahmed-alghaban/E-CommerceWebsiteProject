@@ -4,7 +4,7 @@ using ECommerceProject.src.Models;
 
 namespace E_CommerceWebsiteProject.src.MVC.Dtos.Products
 {
-    public class ProductsDto
+    public class ProductDto
     {
         public string ProductName { get; set; } = string.Empty;
         public string? ProductDescription { get; set; } = string.Empty;
