@@ -35,6 +35,17 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             var createProduct = _mapper.Map<Product>(newProduct);
             await _appDbContext.Products.AddAsync(createProduct);
             await _appDbContext.SaveChangesAsync();
+            var foundInventory = await _appDbContext.Inventories.FindAsync(createProduct.StoreID)
+            ?? throw new Exception("Inventory not found");
+            int numberOfProducts = _appDbContext.Products.Where(product => product.StoreID == foundInventory.StoreID).Count();
+            foundInventory.NumberOfItems = numberOfProducts; // adding the number of products where the have the same store as the inventory
+            foundInventory.TotalQuantity = newProduct.Quantity > 0
+            ?
+            foundInventory.TotalQuantity + newProduct.Quantity //increasing the inventory quantity after adding a new product
+            :
+            foundInventory.TotalQuantity;
+            _appDbContext.Inventories.Update(foundInventory);
+            await _appDbContext.SaveChangesAsync();
             return _mapper.Map<ProductDto>(createProduct);
         }
 
@@ -44,13 +55,16 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             ?? throw new Exception("product not found");
             var foundInventory = await _appDbContext.Inventories.FindAsync(foundProduct.StoreID)
             ?? throw new Exception("Inventory not found");
-            int numberOfProducts = _appDbContext.Products.Where(product => product.StoreID == foundInventory.StoreID).Count();
+            int accumulatedQuantity = updatedProduct.Quantity > 0
+            ?
+            updatedProduct.Quantity + foundProduct.Quantity
+            :
+            foundInventory.TotalQuantity; // to make the operation if there is any addition else keep the same value
             _mapper.Map(updatedProduct, foundProduct);
             foundProduct.UpdatedAt = DateTime.UtcNow;
             _appDbContext.Products.Update(foundProduct);
             await _appDbContext.SaveChangesAsync();
-            foundInventory.NumberOfItems = numberOfProducts; // adding the number of products where the have the same store as the inventory
-            foundInventory.TotalQuantity += foundProduct.Quantity;//increasing the inventory quantity after adding a new product
+            foundInventory.TotalQuantity = accumulatedQuantity; //set this one with the variable that comes from the mathematical operation
             _appDbContext.Inventories.Update(foundInventory);
             await _appDbContext.SaveChangesAsync();
             return _mapper.Map<ProductDto>(foundProduct);
