@@ -24,7 +24,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             ?
             await _appDbContext.Inventories.ToListAsync()
             :
-            throw new Exception("Inventory not found");
+            throw new Exception("There is no inventories");
             return inventories;
         }
 

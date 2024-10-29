@@ -8,7 +8,7 @@ namespace E_CommerceWebsiteProject.src.Models
         public string? ImageName { get; set; } = string.Empty;
         public string Url { get; set; } = string.Empty;
         public Guid ProductID { get; set; }
-        public Product AssociatedProduct { get; set; } = new Product();
+        public Product AssociatedProduct { get; set; }
         public Image() : base() { }
     }
 }

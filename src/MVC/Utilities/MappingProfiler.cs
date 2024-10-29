@@ -2,6 +2,8 @@ using AutoMapper;
 using E_CommerceWebsiteProject.MVC.Dtos.Categories;
 using E_CommerceWebsiteProject.MVC.Dtos.Roles;
 using E_CommerceWebsiteProject.MVC.Dtos.Users;
+using E_CommerceWebsiteProject.src.Models;
+using E_CommerceWebsiteProject.src.MVC.Dtos.Images;
 using E_CommerceWebsiteProject.src.MVC.Dtos.Inventories;
 using E_CommerceWebsiteProject.src.MVC.Dtos.Products;
 using E_CommerceWebsiteProject.src.MVC.Dtos.Stores;
@@ -17,31 +19,31 @@ namespace E_CommerceWebsiteProject.MVC.Utilities
             CreateMap<User, UserDto>();
             CreateMap<UserCreateDto, User>();
             CreateMap<UserUpdateDto, User>()
-            .ForAllMembers(opts => opts.Condition((src, dest, sMember) => sMember != null));
+                .ForAllMembers(opts => opts.Condition((src, dest, sMember) => sMember != null));
 
             CreateMap<RoleDto, Role>();
             CreateMap<Role, RoleDto>();
             CreateMap<RoleCreateDto, Role>();
             CreateMap<RoleUpdateDto, Role>()
-            .ForAllMembers(opts => opts.Condition((src, dest, sMember) => sMember != null));
+                .ForAllMembers(opts => opts.Condition((src, dest, sMember) => sMember != null));
 
             CreateMap<Category, CategoryDto>();
             CreateMap<CategoryDto, Category>();
             CreateMap<CategoryCreateDto, Category>();
             CreateMap<CategoryUpdateDto, Category>()
-            .ForAllMembers(opts => opts.Condition((src, dest, sMember) => sMember != null));
+                .ForAllMembers(opts => opts.Condition((src, dest, sMember) => sMember != null));
 
             CreateMap<Store, StoreDto>();
             CreateMap<StoreDto, Store>();
             CreateMap<StoreCreateDto, Store>();
             CreateMap<StoreUpdateDto, Store>()
-            .ForAllMembers(opts => opts.Condition((src, dest, sMember) => sMember != null));
+                .ForAllMembers(opts => opts.Condition((src, dest, sMember) => sMember != null));
 
             CreateMap<Inventory, InventoryDto>();
             CreateMap<InventoryDto, Inventory>();
             CreateMap<InventoryCreateDto, Inventory>();
             CreateMap<InventoryUpdateDto, Inventory>()
-            .ForAllMembers(opts => opts.Condition((src, dest, sMember) => sMember != null));
+                .ForAllMembers(opts => opts.Condition((src, dest, sMember) => sMember != null));
 
             CreateMap<Product, ProductDto>();
             CreateMap<ProductDto, Product>();
@@ -52,6 +54,12 @@ namespace E_CommerceWebsiteProject.MVC.Utilities
                 .ForMember(dest => dest.ProductDescription, act => act.Condition(src => !string.IsNullOrEmpty(src.ProductDescription)))
                 .ForMember(dest => dest.CategoryID, act => act.Condition(src => src.CategoryID != Guid.Empty))
                 .ForMember(dest => dest.ProductName, act => act.Condition(src => !string.IsNullOrEmpty(src.ProductName)));
+
+            CreateMap<Image, ImageDto>();
+            CreateMap<ImageDto, Image>();
+            CreateMap<ImageCreateDto, Image>();
+            CreateMap<ImageUpdateDto, Image>()
+                .ForAllMembers(opts => opts.Condition((src, dest, sMember) => sMember != null));
         }
     }
 }
