@@ -7,7 +7,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Dtos.Products
         [Required(ErrorMessage = "Product name is required")]
         public string ProductName { get; set; }
         public string? ProductDescription { get; set; }
-        [Range(100, double.MaxValue)]
+        [Range(10, double.MaxValue)]
         public decimal Price { get; set; }
         [Range(1, int.MaxValue)]
         public int Quantity { get; set; }

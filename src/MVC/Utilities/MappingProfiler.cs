@@ -48,7 +48,7 @@ namespace E_CommerceWebsiteProject.MVC.Utilities
             CreateMap<ProductCreateDto, Product>();
             CreateMap<ProductUpdateDto, Product>()
                 .ForMember(dest => dest.Price, act => act.Condition(src => src.Price > 0))
-                .ForMember(dest => dest.Quantity, act => act.Condition(src => src.Quantity > 0))
+                .ForMember(dest => dest.Quantity, act => act.Condition(src => src.Quantity >= 0))
                 .ForMember(dest => dest.ProductDescription, act => act.Condition(src => !string.IsNullOrEmpty(src.ProductDescription)))
                 .ForMember(dest => dest.CategoryID, act => act.Condition(src => src.CategoryID != Guid.Empty))
                 .ForMember(dest => dest.ProductName, act => act.Condition(src => !string.IsNullOrEmpty(src.ProductName)));
