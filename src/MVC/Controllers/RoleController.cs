@@ -1,38 +1,34 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using E_CommerceWebsiteProject.MVC.Abstarction;
+using E_CommerceWebsiteProject.MVC.Dtos.Roles;
 using E_CommerceWebsiteProject.MVC.Utilities;
-using E_CommerceWebsiteProject.src.MVC.Abstarction;
-using E_CommerceWebsiteProject.src.MVC.Dtos.Images;
+using ECommerceProject.src.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace E_CommerceWebsiteProject.src.MVC.Contollers
+namespace E_CommerceWebsiteProject.MVC.Controllers
 {
     [ApiController]
-    [Route("api/images")]
-    public class ImageController : ControllerBase
+    [Route("api/roles")]
+    public class RoleController : ControllerBase
     {
-        private readonly IImageService _imageService;
-
-        public ImageController(IImageService imageService)
+        private readonly IRoleService _roleService;
+        public RoleController(IRoleService roleService)
         {
-            _imageService = imageService;
+            _roleService = roleService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetImages()
+        public async Task<IActionResult> GetAllRoles()
         {
             try
             {
-                var images = await _imageService.GetAllImagesAsync();
+                var roles = await _roleService.GetAllRolesAsync();
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
                     Message = "operation done successfully",
                     Data = new
                     {
-                        userData = images
+                        userData = roles
                     }
                 };
                 return Ok(response);
@@ -50,18 +46,18 @@ namespace E_CommerceWebsiteProject.src.MVC.Contollers
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetImagesById(Guid id)
+        public async Task<IActionResult> GetRoleById(Guid id)
         {
             try
             {
-                var image = await _imageService.GetImageByIdAsync(id);
+                var role = await _roleService.GetRoleByIdAsync(id);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
                     Message = "operation done successfully",
                     Data = new
                     {
-                        userData = image
+                        userData = role
                     }
                 };
                 return Ok(response);
@@ -79,16 +75,16 @@ namespace E_CommerceWebsiteProject.src.MVC.Contollers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateImage(ImageCreateDto newImage)
+        public async Task<IActionResult> CreateRole([FromBody] RoleCreateDto newRole)
         {
             try
             {
-                var image = await _imageService.CreateImageAsync(newImage);
+                var role = await _roleService.CreateRoleAsync(newRole);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
-                    Message = "Image Created successfully",
-                    Data = image
+                    Message = "Role Created successfully",
+                    Data = role
                 };
                 return Created("", response);
             }
@@ -105,16 +101,16 @@ namespace E_CommerceWebsiteProject.src.MVC.Contollers
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateImage(Guid id, ImageUpdateDto updatedImage)
+        public async Task<IActionResult> UpdateRole(Guid id, RoleUpdateDto updatedRole)
         {
             try
             {
-                var image = await _imageService.UpdateImageAsync(id, updatedImage);
+                var role = await _roleService.UpdateRoleAsync(id, updatedRole);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
-                    Message = "Image Updated Successfully",
-                    Data = image
+                    Message = "Role Updated Successfully",
+                    Data = role
                 };
                 return Ok(response);
             }
@@ -131,13 +127,13 @@ namespace E_CommerceWebsiteProject.src.MVC.Contollers
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteImage(Guid id)
+        public async Task<IActionResult> DeleteRole(Guid id)
         {
-            var isDeleted = await _imageService.DeleteImageAsync(id);
+            var isDeleted = await _roleService.DeleteRoleAsync(id);
             var response = new ApiResponse<object>
             {
                 IsSuccess = isDeleted,
-                Message = isDeleted ? "Image Deleted Successfully" : "Failed to Delete Image",
+                Message = isDeleted ? "Role Deleted Successfully" : "Failed to Delete Role",
                 Data = new
                 {
                     Deleted = isDeleted

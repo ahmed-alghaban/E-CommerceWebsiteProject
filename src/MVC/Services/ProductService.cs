@@ -12,11 +12,14 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
     {
         private readonly AppDbContext _appDbContext;
         private readonly IMapper _mapper;
+        private readonly InventoryReadings _inventoryReadings;
 
-        public ProductService(AppDbContext appDbContext, IMapper mapper)
+        public ProductService(AppDbContext appDbContext, IMapper mapper, InventoryReadings inventoryReadings)
         {
             _appDbContext = appDbContext;
             _mapper = mapper;
+            _inventoryReadings = inventoryReadings;
+
         }
 
         public async Task<List<Product>> GetAllProductsAsync()
@@ -41,7 +44,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             var createProduct = _mapper.Map<Product>(newProduct);
             await _appDbContext.Products.AddAsync(createProduct);
             await _appDbContext.SaveChangesAsync();
-            await InventoryReadings.UpdateInventoryReadings(createProduct.InventoryID);
+            await _inventoryReadings.UpdateInventoryReadings(createProduct.InventoryID);
             return _mapper.Map<ProductDto>(createProduct);
         }
 
@@ -53,7 +56,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             foundProduct.UpdatedAt = DateTime.UtcNow;
             _appDbContext.Products.Update(foundProduct);
             await _appDbContext.SaveChangesAsync();
-            await InventoryReadings.UpdateInventoryReadings(foundProduct.InventoryID);
+            await _inventoryReadings.UpdateInventoryReadings(foundProduct.InventoryID);
             return _mapper.Map<ProductDto>(foundProduct);
         }
 
@@ -64,7 +67,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             Console.WriteLine($"{foundProduct.StoreID}");
             _appDbContext.Products.Remove(foundProduct);
             await _appDbContext.SaveChangesAsync();
-            await InventoryReadings.UpdateInventoryReadings(foundProduct.InventoryID);
+            await _inventoryReadings.UpdateInventoryReadings(foundProduct.InventoryID);
             return true;
         }
     }

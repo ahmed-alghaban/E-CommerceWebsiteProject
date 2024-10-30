@@ -1,12 +1,21 @@
+using AutoMapper;
+using E_CommerceWebsiteProject.MVC.Utilities;
+using E_CommerceWebsiteProject.src.MVC.Dtos.Inventories;
 using ECommerceProject.src.DB;
+using ECommerceProject.src.Models;
 
 namespace E_CommerceWebsiteProject.src.MVC.Utilities
 {
     public class InventoryReadings
     {
-        private static readonly AppDbContext _appDbContext;
+        private readonly AppDbContext _appDbContext;
 
-        public static async Task<bool> UpdateInventoryReadings(Guid id)
+        public InventoryReadings(AppDbContext appDbContext)
+        {
+            _appDbContext = appDbContext;
+        }
+
+        public async Task<bool> UpdateInventoryReadings(Guid id)
         {
             var foundInventory = await _appDbContext.Inventories.FindAsync(id)
             ?? throw new Exception("Inventory not found");

@@ -5,6 +5,8 @@ using E_CommerceWebsiteProject.MVC.Dtos.Users;
 using E_CommerceWebsiteProject.src.Models;
 using E_CommerceWebsiteProject.src.MVC.Dtos.Images;
 using E_CommerceWebsiteProject.src.MVC.Dtos.Inventories;
+using E_CommerceWebsiteProject.src.MVC.Dtos.OrderDetails;
+using E_CommerceWebsiteProject.src.MVC.Dtos.Orders;
 using E_CommerceWebsiteProject.src.MVC.Dtos.Products;
 using E_CommerceWebsiteProject.src.MVC.Dtos.Stores;
 using ECommerceProject.src.Models;
@@ -60,6 +62,16 @@ namespace E_CommerceWebsiteProject.MVC.Utilities
             CreateMap<ImageCreateDto, Image>();
             CreateMap<ImageUpdateDto, Image>()
                 .ForAllMembers(opts => opts.Condition((src, dest, sMember) => sMember != null));
+
+            CreateMap<Order, OrderDto>();
+            CreateMap<OrderDto, Order>();
+            CreateMap<OrderCreateDto, Order>();
+            CreateMap<OrderUpdateDto, Order>()
+            .ForAllMembers(opts => opts.Condition((src, dest, sMember) => sMember != null));
+
+            CreateMap<OrderDetail, OrderDetailsDto>();
+            CreateMap<OrderDetailsDto, OrderDetail>();
+            CreateMap<OrderDetailsCreateDto, OrderDetail>();
         }
     }
 }

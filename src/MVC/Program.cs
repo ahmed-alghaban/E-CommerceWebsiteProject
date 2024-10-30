@@ -4,6 +4,7 @@ using E_CommerceWebsiteProject.MVC.Services;
 using E_CommerceWebsiteProject.MVC.Utilities;
 using E_CommerceWebsiteProject.src.MVC.Abstarction;
 using E_CommerceWebsiteProject.src.MVC.Services;
+using E_CommerceWebsiteProject.src.MVC.Utilities;
 using ECommerceProject.src.DB;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,8 @@ builder.Services.AddScoped<IStoreService, StoreService>();
 builder.Services.AddScoped<IInventoryService, InventoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IOrderService,OrderService>();
+builder.Services.AddScoped<InventoryReadings>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<AppDbContext>(options =>

@@ -1,34 +1,38 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using E_CommerceWebsiteProject.MVC.Utilities;
 using E_CommerceWebsiteProject.src.MVC.Abstarction;
-using E_CommerceWebsiteProject.src.MVC.Dtos.Products;
+using E_CommerceWebsiteProject.src.MVC.Dtos.Images;
 using Microsoft.AspNetCore.Mvc;
 
-namespace E_CommerceWebsiteProject.src.MVC.Contollers
+namespace E_CommerceWebsiteProject.src.MVC.Controllers
 {
     [ApiController]
-    [Route("/api/products")]
-    public class ProductController : ControllerBase
+    [Route("api/images")]
+    public class ImageController : ControllerBase
     {
-        private readonly IProductService _productService;
+        private readonly IImageService _imageService;
 
-        public ProductController(IProductService productService)
+        public ImageController(IImageService imageService)
         {
-            _productService = productService;
+            _imageService = imageService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllProducts()
+        public async Task<IActionResult> GetImages()
         {
             try
             {
-                var products = await _productService.GetAllProductsAsync();
+                var images = await _imageService.GetAllImagesAsync();
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
                     Message = "operation done successfully",
                     Data = new
                     {
-                        userData = products
+                        userData = images
                     }
                 };
                 return Ok(response);
@@ -46,18 +50,18 @@ namespace E_CommerceWebsiteProject.src.MVC.Contollers
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetProductById(Guid id)
+        public async Task<IActionResult> GetImagesById(Guid id)
         {
             try
             {
-                var product = await _productService.GetProductByIdAsync(id);
+                var image = await _imageService.GetImageByIdAsync(id);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
                     Message = "operation done successfully",
                     Data = new
                     {
-                        userData = product
+                        userData = image
                     }
                 };
                 return Ok(response);
@@ -75,16 +79,16 @@ namespace E_CommerceWebsiteProject.src.MVC.Contollers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateInventory([FromBody] ProductCreateDto newProduct)
+        public async Task<IActionResult> CreateImage(ImageCreateDto newImage)
         {
             try
             {
-                var inventory = await _productService.CreateProductAsync(newProduct);
+                var image = await _imageService.CreateImageAsync(newImage);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
-                    Message = "Product Created successfully",
-                    Data = inventory
+                    Message = "Image Created successfully",
+                    Data = image
                 };
                 return Created("", response);
             }
@@ -101,16 +105,16 @@ namespace E_CommerceWebsiteProject.src.MVC.Contollers
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateProduct(Guid id, ProductUpdateDto updatedProduct)
+        public async Task<IActionResult> UpdateImage(Guid id, ImageUpdateDto updatedImage)
         {
             try
             {
-                var product = await _productService.UpdateProductAsync(id, updatedProduct);
+                var image = await _imageService.UpdateImageAsync(id, updatedImage);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
-                    Message = "Inventory Updated Successfully",
-                    Data = product
+                    Message = "Image Updated Successfully",
+                    Data = image
                 };
                 return Ok(response);
             }
@@ -127,13 +131,13 @@ namespace E_CommerceWebsiteProject.src.MVC.Contollers
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteProduct(Guid id)
+        public async Task<IActionResult> DeleteImage(Guid id)
         {
-            var isDeleted = await _productService.DeleteProductAsync(id);
+            var isDeleted = await _imageService.DeleteImageAsync(id);
             var response = new ApiResponse<object>
             {
                 IsSuccess = isDeleted,
-                Message = isDeleted ? "Product Deleted Successfully" : "Product to Delete Inventory",
+                Message = isDeleted ? "Image Deleted Successfully" : "Failed to Delete Image",
                 Data = new
                 {
                     Deleted = isDeleted

@@ -7,7 +7,7 @@ using E_CommerceWebsiteProject.MVC.Utilities;
 using E_CommerceWebsiteProject.src.MVC.Dtos.Stores;
 using Microsoft.AspNetCore.Mvc;
 
-namespace E_CommerceWebsiteProject.src.MVC.Contollers
+namespace E_CommerceWebsiteProject.src.MVC.Controllers
 {
     [ApiController]
     [Route("api/Stores")]

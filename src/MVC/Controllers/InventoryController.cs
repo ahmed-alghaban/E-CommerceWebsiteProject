@@ -1,36 +1,34 @@
-using System;
-using System.Net;
-using E_CommerceWebsiteProject.MVC.Dtos.Categories;
 using E_CommerceWebsiteProject.MVC.Utilities;
 using E_CommerceWebsiteProject.src.MVC.Abstarction;
-using Microsoft.AspNetCore.Http.HttpResults;
+using E_CommerceWebsiteProject.src.MVC.Dtos.Inventories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace E_CommerceWebsiteProject.src.MVC.Contollers
+namespace E_CommerceWebsiteProject.src.MVC.Controllers
 {
     [ApiController]
-    [Route("/api/categories")]
-    public class CategoryController : ControllerBase
+    [Route("api/inventories")]
+    public class InventoryController : ControllerBase
     {
-        private readonly ICategoryService _categoryService;
-        public CategoryController(ICategoryService categoryService)
+        private readonly IInventoryService _inventoryService;
+
+        public InventoryController(IInventoryService inventoryService)
         {
-            _categoryService = categoryService;
+            _inventoryService = inventoryService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCategories()
+        public async Task<IActionResult> GetAllInventory()
         {
             try
             {
-                var categories = await _categoryService.GetAllCategoriesAsync();
+                var inventories = await _inventoryService.GetAllInventoriesAsync();
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
                     Message = "operation done successfully",
                     Data = new
                     {
-                        userData = categories
+                        userData = inventories
                     }
                 };
                 return Ok(response);
@@ -48,18 +46,18 @@ namespace E_CommerceWebsiteProject.src.MVC.Contollers
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetCategoryById(Guid id)
+        public async Task<IActionResult> GetInventoryById(Guid id)
         {
             try
             {
-                var category = await _categoryService.GetCategoryByIdAsync(id);
+                var inventory = await _inventoryService.GetInventoryByIdAsync(id);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
                     Message = "operation done successfully",
                     Data = new
                     {
-                        userData = category
+                        userData = inventory
                     }
                 };
                 return Ok(response);
@@ -77,16 +75,16 @@ namespace E_CommerceWebsiteProject.src.MVC.Contollers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCategory(CategoryCreateDto newCategory)
+        public async Task<IActionResult> CreateInventory([FromBody] InventoryCreateDto newInventory)
         {
             try
             {
-                var category = await _categoryService.CreateCategoryAsync(newCategory);
+                var inventory = await _inventoryService.CreateInventoryAsync(newInventory);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
-                    Message = "Category Created successfully",
-                    Data = category
+                    Message = "Inventory Created successfully",
+                    Data = inventory
                 };
                 return Created("", response);
             }
@@ -103,16 +101,16 @@ namespace E_CommerceWebsiteProject.src.MVC.Contollers
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateCategory(Guid id, CategoryUpdateDto updatedCategory)
+        public async Task<IActionResult> UpdateInventory(Guid id, InventoryUpdateDto updatedInventory)
         {
             try
             {
-                var category = await _categoryService.UpdateCategoryAsync(id, updatedCategory);
+                var inventory = await _inventoryService.UpdateInventoryAsync(id, updatedInventory);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
-                    Message = "Category Updated Successfully",
-                    Data = category
+                    Message = "Inventory Updated Successfully",
+                    Data = inventory
                 };
                 return Ok(response);
             }
@@ -129,13 +127,13 @@ namespace E_CommerceWebsiteProject.src.MVC.Contollers
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteCategory(Guid id)
+        public async Task<IActionResult> DeleteInventory(Guid id)
         {
-            var isDeleted = await _categoryService.DeleteCategoryAsync(id);
+            var isDeleted = await _inventoryService.DeleteInventoryAsync(id);
             var response = new ApiResponse<object>
             {
                 IsSuccess = isDeleted,
-                Message = isDeleted ? "Category Deleted Successfully" : "Failed to Delete Category",
+                Message = isDeleted ? "Inventory Deleted Successfully" : "Failed to Delete Inventory",
                 Data = new
                 {
                     Deleted = isDeleted

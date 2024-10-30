@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using E_CommerceWebsiteProject.src.MVC.Dtos.OrderDetails;
 using ECommerceProject.src.Models;
 
 namespace E_CommerceWebsiteProject.src.MVC.Dtos.Orders
@@ -15,7 +16,6 @@ namespace E_CommerceWebsiteProject.src.MVC.Dtos.Orders
         [Required(ErrorMessage = "Status is required")]
         public string Status { get; set; }
         public decimal TotalAmount { get; set; }
-        [JsonIgnore]
-        public ICollection<OrderDetail> OrderDetailsList { get; set; }
+        public ICollection<Order> OrderDetailsList { get; set; } = new List<Order>();
     }
 }

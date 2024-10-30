@@ -158,6 +158,7 @@ namespace ECommerceProject.src.DB
             builder.Entity<OrderDetail>(entity =>
             {
                 entity.HasKey(orderDetail => new { orderDetail.OrderID, orderDetail.ProductID });
+                entity.Property(orderDetail => orderDetail.ProductQuantity).IsRequired();
 
                 entity.HasOne(orderDetail => orderDetail.AssociatedOrder)
                 .WithMany(order => order.OrderDetailsList)

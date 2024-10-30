@@ -1,34 +1,34 @@
 using E_CommerceWebsiteProject.MVC.Utilities;
 using E_CommerceWebsiteProject.src.MVC.Abstarction;
-using E_CommerceWebsiteProject.src.MVC.Dtos.Inventories;
+using E_CommerceWebsiteProject.src.MVC.Dtos.Products;
 using Microsoft.AspNetCore.Mvc;
 
-namespace E_CommerceWebsiteProject.src.MVC.Contollers
+namespace E_CommerceWebsiteProject.src.MVC.Controllers
 {
     [ApiController]
-    [Route("api/inventories")]
-    public class InventoryController : ControllerBase
+    [Route("/api/products")]
+    public class ProductController : ControllerBase
     {
-        private readonly IInventoryService _inventoryService;
+        private readonly IProductService _productService;
 
-        public InventoryController(IInventoryService inventoryService)
+        public ProductController(IProductService productService)
         {
-            _inventoryService = inventoryService;
+            _productService = productService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllInventory()
+        public async Task<IActionResult> GetAllProducts()
         {
             try
             {
-                var inventories = await _inventoryService.GetAllInventoriesAsync();
+                var products = await _productService.GetAllProductsAsync();
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
                     Message = "operation done successfully",
                     Data = new
                     {
-                        userData = inventories
+                        userData = products
                     }
                 };
                 return Ok(response);
@@ -46,18 +46,18 @@ namespace E_CommerceWebsiteProject.src.MVC.Contollers
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetInventoryById(Guid id)
+        public async Task<IActionResult> GetProductById(Guid id)
         {
             try
             {
-                var inventory = await _inventoryService.GetInventoryByIdAsync(id);
+                var product = await _productService.GetProductByIdAsync(id);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
                     Message = "operation done successfully",
                     Data = new
                     {
-                        userData = inventory
+                        userData = product
                     }
                 };
                 return Ok(response);
@@ -75,15 +75,15 @@ namespace E_CommerceWebsiteProject.src.MVC.Contollers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateInventory([FromBody] InventoryCreateDto newInventory)
+        public async Task<IActionResult> CreateInventory([FromBody] ProductCreateDto newProduct)
         {
             try
             {
-                var inventory = await _inventoryService.CreateInventoryAsync(newInventory);
+                var inventory = await _productService.CreateProductAsync(newProduct);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
-                    Message = "Inventory Created successfully",
+                    Message = "Product Created successfully",
                     Data = inventory
                 };
                 return Created("", response);
@@ -101,16 +101,16 @@ namespace E_CommerceWebsiteProject.src.MVC.Contollers
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateInventory(Guid id, InventoryUpdateDto updatedInventory)
+        public async Task<IActionResult> UpdateProduct(Guid id, ProductUpdateDto updatedProduct)
         {
             try
             {
-                var inventory = await _inventoryService.UpdateInventoryAsync(id, updatedInventory);
+                var product = await _productService.UpdateProductAsync(id, updatedProduct);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
                     Message = "Inventory Updated Successfully",
-                    Data = inventory
+                    Data = product
                 };
                 return Ok(response);
             }
@@ -127,13 +127,13 @@ namespace E_CommerceWebsiteProject.src.MVC.Contollers
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteInventory(Guid id)
+        public async Task<IActionResult> DeleteProduct(Guid id)
         {
-            var isDeleted = await _inventoryService.DeleteInventoryAsync(id);
+            var isDeleted = await _productService.DeleteProductAsync(id);
             var response = new ApiResponse<object>
             {
                 IsSuccess = isDeleted,
-                Message = isDeleted ? "Inventory Deleted Successfully" : "Failed to Delete Inventory",
+                Message = isDeleted ? "Product Deleted Successfully" : "Product to Delete Inventory",
                 Data = new
                 {
                     Deleted = isDeleted

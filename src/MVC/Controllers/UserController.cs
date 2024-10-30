@@ -8,7 +8,7 @@ using ECommerceProject.src.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
-namespace E_CommerceWebsiteProject.MVC.Contollers
+namespace E_CommerceWebsiteProject.MVC.Controllers
 {
     [ApiController]
     [Route("api/users")]
