@@ -44,30 +44,35 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             {
                 OrderNumber = newOrder.OrderNumber,
                 UserID = newOrder.UserID,
-                OrderDetailsList = new List<OrderDetail>(),
-                TotalAmount = newOrder.TotalAmount,
                 StoreID = newOrder.StoreID,
                 Status = newOrder.Status,
+                TotalAmount = newOrder.TotalAmount,
+                OrderDetailsList = new List<OrderDetail>()
             };
-            foreach (var orderDetails in order.OrderDetailsList)
+            foreach (var orderProductDto in newOrder.OrderDetailsList)
             {
-                var newOrderDetails = new OrderDetail
+                var orderProduct = new OrderDetail
                 {
                     OrderID = order.ID,
-                    ProductID = orderDetails.ProductID,
-                    ProductQuantity = orderDetails.ProductQuantity
+                    ProductID = orderProductDto.ProductID,
                 };
-                _appDbContext.OrderDetails.Add(newOrderDetails);
-                _appDbContext.SaveChanges();
+                order.OrderDetailsList.Add(orderProduct);
             }
             await _appDbContext.Orders.AddAsync(order);
             await _appDbContext.SaveChangesAsync();
-            return await GetOrderByIdAsync(order.ID);
+            return _mapper.Map<OrderDto>(order);
         }
-        // public async Task<OrderDto?> UpdateInventoryAsync(Guid id, OrderUpdateDto updatedOrder)
-        // {
 
-        // }
+        public async Task<bool> DeleteOrderAsync(Guid Id)
+        {
+            var order = await _appDbContext.Orders
+            .Include(order => order.OrderDetailsList)
+            .FirstOrDefaultAsync(foundOrder => foundOrder.ID == Id)
+            ?? throw new Exception("Order is not found");
+            _appDbContext.Orders.Remove(order);
+            await _appDbContext.SaveChangesAsync();
+            return true;
+        }
         // public async Task<bool> DeleteOrderAsync(Guid id)
         // {
 

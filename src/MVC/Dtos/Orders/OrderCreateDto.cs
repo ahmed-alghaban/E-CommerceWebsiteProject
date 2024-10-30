@@ -16,6 +16,6 @@ namespace E_CommerceWebsiteProject.src.MVC.Dtos.Orders
         [Required(ErrorMessage = "Status is required")]
         public string Status { get; set; }
         public decimal TotalAmount { get; set; }
-        public ICollection<Order> OrderDetailsList { get; set; }
+        public ICollection<OrderDetailsDto> OrderDetailsList { get; set; }
     }
 }

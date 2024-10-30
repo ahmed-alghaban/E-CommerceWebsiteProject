@@ -9,6 +9,6 @@ namespace E_CommerceWebsiteProject.src.MVC.Abstarction
         Task<OrderDto> GetOrderByIdAsync(Guid id);
         Task<OrderDto> CreateOrderAsync(OrderCreateDto newOrder);
         // Task<OrderDto?> UpdateInventoryAsync(Guid id, OrderUpdateDto updatedOrder);
-        // Task<bool> DeleteOrderAsync(Guid id);
+        Task<bool> DeleteOrderAsync(Guid id);
     }
 }
