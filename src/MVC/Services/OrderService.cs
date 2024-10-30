@@ -40,20 +40,29 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
 
         public async Task<OrderDto> CreateOrderAsync(OrderCreateDto newOrder)
         {
-            var createdOrder = _mapper.Map<Order>(newOrder);
-            foreach (var orderDetails in createdOrder.OrderDetailsList)
+            var order = new Order
+            {
+                OrderNumber = newOrder.OrderNumber,
+                UserID = newOrder.UserID,
+                OrderDetailsList = new List<OrderDetail>(),
+                TotalAmount = newOrder.TotalAmount,
+                StoreID = newOrder.StoreID,
+                Status = newOrder.Status,
+            };
+            foreach (var orderDetails in order.OrderDetailsList)
             {
                 var newOrderDetails = new OrderDetail
                 {
-                    OrderID = createdOrder.ID,
+                    OrderID = order.ID,
                     ProductID = orderDetails.ProductID,
                     ProductQuantity = orderDetails.ProductQuantity
                 };
                 _appDbContext.OrderDetails.Add(newOrderDetails);
+                _appDbContext.SaveChanges();
             }
-            await _appDbContext.Orders.AddAsync(createdOrder);
+            await _appDbContext.Orders.AddAsync(order);
             await _appDbContext.SaveChangesAsync();
-            return await GetOrderByIdAsync(createdOrder.ID);
+            return await GetOrderByIdAsync(order.ID);
         }
         // public async Task<OrderDto?> UpdateInventoryAsync(Guid id, OrderUpdateDto updatedOrder)
         // {

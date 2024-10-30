@@ -9,6 +9,7 @@ namespace E_CommerceWebsiteProject.src.Models
         public string Url { get; set; } = string.Empty;
         public Guid ProductID { get; set; }
         public Product AssociatedProduct { get; set; }
-        public Image() : base() { }
+        public Image() { }
+        public Image(Guid id, DateTime createdAt, DateTime updatedAt) : base(id, createdAt, updatedAt) { }
     }
 }

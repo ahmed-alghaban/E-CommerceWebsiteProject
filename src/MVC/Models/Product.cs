@@ -17,9 +17,10 @@ namespace ECommerceProject.src.Models
         public Guid StoreID { get; set; }
         public Store AssociatedStore { get; set; }
         [JsonIgnore]
-        public List<Image> ImageList { get; set; }
+        public List<Image> ImageList { get; set; } = new List<Image>();
         [JsonIgnore]
-        public List<OrderDetail> OrderDetailsList { get; set; }
-        public Product() : base() { }
+        public List<OrderDetail> OrderDetailsList { get; set; } = new List<OrderDetail>();
+        public Product() { }
+        public Product(Guid id, DateTime createdAt, DateTime updatedAt) : base(id, createdAt, updatedAt) { }
     }
 }

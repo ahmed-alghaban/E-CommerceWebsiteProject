@@ -7,10 +7,11 @@ namespace E_CommerceWebsiteProject.src.Models
     {
         public string TransactionID { get; set; } = string.Empty;
         public decimal Amount { get; set; }
-        public string PaymentMethod { get; set; } = string.Empty ;
+        public string PaymentMethod { get; set; } = string.Empty;
         public string Status { get; set; } = string.Empty;
         public Guid? OrderID { get; set; }
-        public Order? AssociatedOrder { get; set; }
-        public Payment() : base(){}
+        public Order AssociatedOrder { get; set; }
+        public Payment() { }
+        public Payment(Guid id, DateTime createdAt, DateTime updatedAt) : base(id, createdAt, updatedAt) { }
     }
 }

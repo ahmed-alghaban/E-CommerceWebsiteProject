@@ -6,11 +6,15 @@ namespace ECommerceProject.src.Utilities
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        public BaseClass()
+        public BaseClass() { }
+        public BaseClass(Guid id, DateTime createdAt, DateTime updatedAt)
         {
-            ID = Guid.Empty;
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
+            id = Guid.Empty;
+            createdAt = DateTime.UtcNow;
+            updatedAt = DateTime.UtcNow;
+            ID = id;
+            CreatedAt = createdAt;
+            UpdatedAt = updatedAt;
         }
     }
 }

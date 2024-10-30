@@ -14,7 +14,6 @@ namespace E_CommerceWebsiteProject.src.MVC.Dtos.Orders
         public string Status { get; set; }
         public Payment AssociatedPayment { get; set; }
         public decimal TotalAmount { get; set; }
-        [JsonIgnore]
         public ICollection<OrderDetail> OrderDetailsList { get; set; }
     }
 }

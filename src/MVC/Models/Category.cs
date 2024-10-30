@@ -8,7 +8,10 @@ namespace ECommerceProject.src.Models
         public string CategoryName { get; set; } = string.Empty;
         public string? CategoryDescription { get; set; } = string.Empty;
         [JsonIgnore]
-        public List<Product> ProductsList { get; set; }
-        public Category():base(){}
+        public List<Product> ProductsList { get; set; } = new List<Product>();
+
+        public Category() { }
+
+        public Category(Guid id, DateTime createdAt, DateTime updatedAt) : base(id, createdAt, updatedAt) { }
     }
 }
