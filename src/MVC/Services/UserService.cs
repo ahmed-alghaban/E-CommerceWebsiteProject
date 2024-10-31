@@ -1,11 +1,11 @@
 using AutoMapper;
 using E_CommerceWebsiteProject.MVC.Abstarction;
 using E_CommerceWebsiteProject.MVC.Dtos.Users;
+using E_CommerceWebsiteProject.src.MVC.Utilities;
 using ECommerceProject.src.DB;
 using ECommerceProject.src.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 
 namespace E_CommerceWebsiteProject.MVC.Services
 {
@@ -13,10 +13,12 @@ namespace E_CommerceWebsiteProject.MVC.Services
     {
         private readonly AppDbContext _appDbContext;
         private readonly IMapper _mapper;
-        public UserService(AppDbContext appDbContext, IMapper mapper)
+        private readonly GetUserIDFromToken _getUserIDFromToken;
+        public UserService(AppDbContext appDbContext, IMapper mapper , GetUserIDFromToken GetUserIdFromToken)
         {
             _appDbContext = appDbContext;
             _mapper = mapper;
+            _getUserIDFromToken = GetUserIdFromToken;
         }
 
         public async Task<List<User>> GetAllUsersAsync()

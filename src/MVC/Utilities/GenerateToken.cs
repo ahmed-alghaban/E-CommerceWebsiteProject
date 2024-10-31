@@ -30,7 +30,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Utilities
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()), // Often used to store a user ID, which is critical for identifying the user within your system.
-                    new Claim(ClaimTypes.Name, user.FirstName), // User's name.
+                    new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"), // User's name.
                     new Claim(ClaimTypes.Role, role.RoleName),// User's role, determining access level.
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
