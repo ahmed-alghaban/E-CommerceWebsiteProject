@@ -10,5 +10,6 @@ namespace E_CommerceWebsiteProject.src.MVC.Dtos.OrderDetails
         public OrderDto? AssociatedOrder { get; set; }
         public Guid ProductID { get; set; }
         public ProductDto? AssociatedProduct { get; set; }
+        public int ProductQuantity { get; set; }
     }
 }

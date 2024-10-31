@@ -49,14 +49,15 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
                 TotalAmount = newOrder.TotalAmount,
                 OrderDetailsList = new List<OrderDetail>()
             };
-            foreach (var orderProductDto in newOrder.OrderDetailsList)
+            foreach (var orderDetails in newOrder.OrderDetailsList)
             {
-                var orderProduct = new OrderDetail
+                var orderDetail = new OrderDetail
                 {
                     OrderID = order.ID,
-                    ProductID = orderProductDto.ProductID,
+                    ProductID = orderDetails.ProductID,
+                    ProductQuantity = orderDetails.ProductQuantity
                 };
-                order.OrderDetailsList.Add(orderProduct);
+                order.OrderDetailsList.Add(orderDetail);
             }
             await _appDbContext.Orders.AddAsync(order);
             await _appDbContext.SaveChangesAsync();
@@ -73,9 +74,5 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             await _appDbContext.SaveChangesAsync();
             return true;
         }
-        // public async Task<bool> DeleteOrderAsync(Guid id)
-        // {
-
-        // }
     }
 }

@@ -99,5 +99,21 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
                 return BadRequest(response);
             }
         }
+
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> DeleteOrder(Guid id)
+        {
+            var isDeleted = await _orderService.DeleteOrderAsync(id);
+            var response = new ApiResponse<object>
+            {
+                IsSuccess = isDeleted,
+                Message = isDeleted ? "Order Deleted Successfully" : "Order to Delete Inventory",
+                Data = new
+                {
+                    Deleted = isDeleted
+                }
+            };
+            return StatusCode(isDeleted ? 204 : 400, response);
+        }
     }
 }
