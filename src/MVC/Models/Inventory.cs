@@ -13,7 +13,6 @@ namespace ECommerceProject.src.Models
         public Store AssociatedStore { get; set; }
         [JsonIgnore]
         public List<Product> ProductsList { get; set; } = new List<Product>();
-        public Inventory() { }
-        public Inventory(Guid id, DateTime createdAt, DateTime updatedAt) : base(id, createdAt, updatedAt) { }
+        public Inventory() : base() { }
     }
 }

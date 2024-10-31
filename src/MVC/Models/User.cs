@@ -16,8 +16,6 @@ namespace ECommerceProject.src.Models
         [JsonIgnore]
         public Store? StoreOwner { get; set; }
         public List<Order> OrdersList { get; set; } = new List<Order>();
-        public User() { }
-        public User(Guid id, DateTime createdAt, DateTime updatedAt) : base(id, createdAt, updatedAt) { }
-
+        public User() : base() { }
     }
 }

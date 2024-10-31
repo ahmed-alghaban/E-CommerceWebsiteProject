@@ -18,7 +18,6 @@ namespace ECommerceProject.src.Models
         public Payment? AssociatedPayment { get; set; }
         public decimal TotalAmount { get; set; }
         public ICollection<OrderDetail> OrderDetailsList { get; set; } = new List<OrderDetail>();
-        public Order() { }
-        public Order(Guid id, DateTime createdAt, DateTime updatedAt) : base(id, createdAt, updatedAt) { }
+        public Order() : base() { }
     }
 }

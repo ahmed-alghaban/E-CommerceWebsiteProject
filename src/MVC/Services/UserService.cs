@@ -36,7 +36,12 @@ namespace E_CommerceWebsiteProject.MVC.Services
 
         public async Task<UserDto> GetUserByIdAsync(Guid id)
         {
-            var user = await _appDbContext.Users.FindAsync(id);
+            var user = await _appDbContext.Users
+            .Include(user => user.OrdersList)
+            .ThenInclude(order => order.OrderDetailsList)
+            .ThenInclude(order => order.AssociatedProduct)
+            .ThenInclude(product => product.AssociatedStore)
+            .FirstOrDefaultAsync(user => user.ID == id);
             return _mapper.Map<UserDto>(user);
         }
         public async Task<UserDto> CreateUserAsync([FromBody] UserCreateDto newUser)

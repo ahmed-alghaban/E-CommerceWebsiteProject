@@ -21,7 +21,6 @@ namespace ECommerceProject.src.Models
         public List<Image> ImageList { get; set; } = new List<Image>();
         [JsonIgnore]
         public List<OrderDetail> OrderDetailsList { get; set; } = new List<OrderDetail>();
-        public Product() { }
-        public Product(Guid id, DateTime createdAt, DateTime updatedAt) : base(id, createdAt, updatedAt) { }
+        public Product():base() { }
     }
 }

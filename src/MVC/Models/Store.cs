@@ -15,7 +15,6 @@ namespace ECommerceProject.src.Models
         public Inventory AssociatedInventory { get; set; }
         [JsonIgnore]
         public List<Order> OrdersList { get; set; } = new List<Order>();
-        public Store() { }
-        public Store(Guid id, DateTime createdAt, DateTime updatedAt) : base(id, createdAt, updatedAt) { }
+        public Store():base() { }
     }
 }

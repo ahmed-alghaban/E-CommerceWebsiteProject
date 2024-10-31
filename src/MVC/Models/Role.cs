@@ -8,7 +8,6 @@ namespace ECommerceProject.src.Models
         public string RoleName { get; set; } = string.Empty;
         public string? RoleDescription { get; set; } = string.Empty;
         public List<User> UsersList { get; set; } = new List<User>();
-        public Role() { }
-        public Role(Guid id, DateTime createdAt, DateTime updatedAt) : base(id, createdAt, updatedAt) { }
+        public Role() : base() { }
     }
 }

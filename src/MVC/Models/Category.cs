@@ -9,8 +9,7 @@ namespace ECommerceProject.src.Models
         public string? CategoryDescription { get; set; } = string.Empty;
         public List<Product> ProductsList { get; set; } = new List<Product>();
 
-        public Category() { }
+        public Category() : base() { }
 
-        public Category(Guid id, DateTime createdAt, DateTime updatedAt) : base(id, createdAt, updatedAt) { }
     }
 }
