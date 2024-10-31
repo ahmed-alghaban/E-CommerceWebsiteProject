@@ -1,4 +1,5 @@
 using E_CommerceWebsiteProject.MVC.Utilities;
+using E_CommerceWebsiteProject.src.MVC.Abstarction;
 using E_CommerceWebsiteProject.src.MVC.Dtos.Authorization;
 using E_CommerceWebsiteProject.src.MVC.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +10,8 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
     [Route("/api/auth")]
     public class AuthController :ControllerBase
     {
-        private readonly AuthService _authService;
-        public AuthController(AuthService authService)
+        private readonly IAuthService _authService;
+        public AuthController(IAuthService authService)
         {
             _authService = authService;
         }

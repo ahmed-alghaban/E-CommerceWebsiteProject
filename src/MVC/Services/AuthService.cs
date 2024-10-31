@@ -1,4 +1,6 @@
 using AutoMapper;
+using E_CommerceWebsiteProject.MVC.Dtos.Users;
+using E_CommerceWebsiteProject.src.MVC.Abstarction;
 using E_CommerceWebsiteProject.src.MVC.Dtos.Authorization;
 using E_CommerceWebsiteProject.src.MVC.Utilities;
 using ECommerceProject.src.DB;
@@ -7,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace E_CommerceWebsiteProject.src.MVC.Services
 {
-    public class AuthService
+    public class AuthService : IAuthService
     {
         private readonly AppDbContext _appDbContext;
         private readonly IMapper _mapper;
@@ -22,7 +24,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
 
         // Register the user
 
-        public async Task<string> RegisterUserService(UserRegisterDto newRegisteredUser)
+        public async Task<UserDto> RegisterUserService(UserRegisterDto newRegisteredUser)
         {
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(newRegisteredUser.Password);
             newRegisteredUser.Password = hashedPassword;
@@ -31,7 +33,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             await _appDbContext.Users.AddAsync(user);
             await _appDbContext.SaveChangesAsync();
 
-            return "user is created successfully";
+            return _mapper.Map<UserDto>(user);
         }
 
         // login the user 
