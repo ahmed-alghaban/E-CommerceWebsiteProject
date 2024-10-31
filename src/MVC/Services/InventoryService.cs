@@ -22,7 +22,9 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
         {
             var inventories = _appDbContext.Inventories.Any()
             ?
-            await _appDbContext.Inventories.ToListAsync()
+            await _appDbContext.Inventories
+            .Include(inventory => inventory.ProductsList)
+            .ToListAsync()
             :
             throw new Exception("There is no inventories");
             return inventories;
@@ -30,7 +32,9 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
 
         public async Task<InventoryDto> GetInventoryByIdAsync(Guid id)
         {
-            var foundInventory = await _appDbContext.Inventories.FindAsync(id)
+            var foundInventory = await _appDbContext.Inventories
+            .Include(inventory => inventory.ProductsList)
+            .FirstOrDefaultAsync(inventory => inventory.ID == id)
             ?? throw new Exception("Inventory not found");
             return _mapper.Map<InventoryDto>(foundInventory);
         }
@@ -40,7 +44,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             var createdInventory = _mapper.Map<Inventory>(newInventory);
             await _appDbContext.Inventories.AddAsync(createdInventory);
             await _appDbContext.SaveChangesAsync();
-            return _mapper.Map<InventoryDto>(createdInventory);
+            return await GetInventoryByIdAsync(createdInventory.ID);
         }
 
         public async Task<InventoryDto?> UpdateInventoryAsync(Guid id, InventoryUpdateDto updatedInventory)
@@ -51,12 +55,14 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             foundInventory.UpdatedAt = DateTime.UtcNow;
             _appDbContext.Inventories.Update(foundInventory);
             await _appDbContext.SaveChangesAsync();
-            return _mapper.Map<InventoryDto>(foundInventory);
+            return await GetInventoryByIdAsync(foundInventory.ID);
         }
 
         public async Task<bool> DeleteInventoryAsync(Guid id)
         {
-            var foundInventory = await _appDbContext.Inventories.FindAsync(id)
+            var foundInventory = await _appDbContext.Inventories
+            .Include(inventory => inventory.ProductsList)
+            .FirstOrDefaultAsync(product => product.ID == id)
             ?? throw new Exception("Inventory not found");
             _appDbContext.Inventories.Remove(foundInventory);
             await _appDbContext.SaveChangesAsync();

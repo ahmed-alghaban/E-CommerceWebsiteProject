@@ -26,7 +26,10 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
         {
             var products = _appDbContext.Products.Any()
             ?
-            await _appDbContext.Products.ToListAsync()
+            await _appDbContext.Products
+            .Include(product => product.ImageList)
+            .Include(product => product.AssociatedStore)
+            .ToListAsync()
             :
             throw new Exception("there is no products");
             return products;
@@ -34,7 +37,10 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
 
         public async Task<ProductDto> GetProductByIdAsync(Guid id)
         {
-            var foundProduct = await _appDbContext.Products.FindAsync(id)
+            var foundProduct = await _appDbContext.Products
+            .Include(product => product.ImageList)
+            .Include(product => product.AssociatedStore)
+            .FirstOrDefaultAsync(product => product.ID == id)
             ?? throw new Exception("product not found");
             return _mapper.Map<ProductDto>(foundProduct);
         }
@@ -45,7 +51,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             await _appDbContext.Products.AddAsync(createProduct);
             await _appDbContext.SaveChangesAsync();
             await _inventoryReadings.UpdateInventoryReadings(createProduct.InventoryID);
-            return _mapper.Map<ProductDto>(createProduct);
+            return await GetProductByIdAsync(createProduct.ID);
         }
 
         public async Task<ProductDto?> UpdateProductAsync(Guid id, ProductUpdateDto updatedProduct)
@@ -57,7 +63,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             _appDbContext.Products.Update(foundProduct);
             await _appDbContext.SaveChangesAsync();
             await _inventoryReadings.UpdateInventoryReadings(foundProduct.InventoryID);
-            return _mapper.Map<ProductDto>(foundProduct);
+            return await GetProductByIdAsync(foundProduct.ID);
         }
 
         public async Task<bool> DeleteProductAsync(Guid id)

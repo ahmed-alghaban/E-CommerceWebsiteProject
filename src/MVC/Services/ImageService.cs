@@ -33,7 +33,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
 
         public async Task<ImageDto> GetImageByIdAsync(Guid id)
         {
-            var foundImage = await _appDbContext.Images.FindAsync(id)
+            var foundImage = await _appDbContext.Images.FirstOrDefaultAsync(image => image.ID == id)
             ?? throw new Exception("Image not found");
             return _mapper.Map<ImageDto>(foundImage);
         }
@@ -43,7 +43,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             var createdImage = _mapper.Map<Image>(newImage);
             await _appDbContext.Images.AddAsync(createdImage);
             await _appDbContext.SaveChangesAsync();
-            return _mapper.Map<ImageDto>(createdImage);
+            return await GetImageByIdAsync(createdImage.ID);
         }
 
         public async Task<ImageDto?> UpdateImageAsync(Guid id, ImageUpdateDto updatedImage)
@@ -54,7 +54,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             foundImage.UpdatedAt = DateTime.UtcNow;
             _appDbContext.Images.Update(foundImage);
             await _appDbContext.SaveChangesAsync();
-            return _mapper.Map<ImageDto>(foundImage);
+            return await GetImageByIdAsync(foundImage.ID);
         }
 
         public async Task<bool> DeleteImageAsync(Guid id)

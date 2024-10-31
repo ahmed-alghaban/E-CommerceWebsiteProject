@@ -23,7 +23,12 @@ namespace E_CommerceWebsiteProject.MVC.Services
         {
             var users = _appDbContext.Users.Any()
             ?
-            await _appDbContext.Users.ToListAsync()
+            await _appDbContext.Users
+            .Include(user => user.OrdersList)
+            .ThenInclude(order => order.OrderDetailsList)
+            .ThenInclude(order => order.AssociatedProduct)
+            .ThenInclude(product => product.AssociatedStore)
+            .ToListAsync()
             :
             throw new Exception("There is no users");
             return users;
@@ -47,16 +52,18 @@ namespace E_CommerceWebsiteProject.MVC.Services
         {
             var foundUser = await _appDbContext.Users.FindAsync(id)
             ?? throw new Exception("User not Found");
-            var user = _mapper.Map(updatedUser, foundUser);
+            _mapper.Map(updatedUser, foundUser);
             foundUser.Password = BCrypt.Net.BCrypt.HashPassword(updatedUser.Password) ?? foundUser.Password;
             foundUser.UpdatedAt = DateTime.UtcNow;
-            _appDbContext.Users.Update(user);
+            _appDbContext.Users.Update(foundUser);
             await _appDbContext.SaveChangesAsync();
-            return _mapper.Map<UserDto>(user);
+            return await GetUserByIdAsync(foundUser.ID);
         }
         public async Task<bool> DeleteUserAsync(Guid id)
         {
-            var foundUser = await _appDbContext.Users.FindAsync(id)
+            var foundUser = await _appDbContext.Users
+            .Include(user => user.StoreOwner)
+            .FirstOrDefaultAsync(user => user.ID == id)
             ?? throw new Exception("User not Found");
             _appDbContext.Remove(foundUser);
             await _appDbContext.SaveChangesAsync();

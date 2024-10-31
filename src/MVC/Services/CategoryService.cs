@@ -21,7 +21,9 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
         {
             var categories = _appDbContext.Categories.Any()
             ?
-            await _appDbContext.Categories.ToListAsync()
+            await _appDbContext.Categories
+            .Include(category => category.ProductsList)
+            .ToListAsync()
             :
             throw new Exception("There is No Categories");
             return categories;
@@ -29,7 +31,9 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
 
         public async Task<CategoryDto> GetCategoryByIdAsync(Guid id)
         {
-            var category = await _appDbContext.Categories.FindAsync(id);
+            var category = await _appDbContext.Categories
+            .Include(category => category.ProductsList)
+            .FirstOrDefaultAsync(category => category.ID == id);
             return _mapper.Map<CategoryDto>(category);
         }
 
@@ -38,7 +42,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             var createdCategory = _mapper.Map<Category>(newCategory);
             await _appDbContext.Categories.AddAsync(createdCategory);
             await _appDbContext.SaveChangesAsync();
-            return _mapper.Map<CategoryDto>(createdCategory);
+            return await GetCategoryByIdAsync(createdCategory.ID);
         }
 
         public async Task<CategoryDto?> UpdateCategoryAsync(Guid id, CategoryUpdateDto updatedCategory)
@@ -49,7 +53,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             foundCategory.UpdatedAt = DateTime.UtcNow;
             _appDbContext.Update(foundCategory);
             await _appDbContext.SaveChangesAsync();
-            return _mapper.Map<CategoryDto>(foundCategory);
+            return await GetCategoryByIdAsync(foundCategory.ID);
         }
 
         public async Task<bool> DeleteCategoryAsync(Guid id)

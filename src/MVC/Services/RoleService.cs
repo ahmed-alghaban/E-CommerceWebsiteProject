@@ -21,7 +21,8 @@ namespace E_CommerceWebsiteProject.MVC.Services
         {
             var roles = _appDbContext.Roles.Any()
             ?
-            await _appDbContext.Roles.ToListAsync()
+            await _appDbContext.Roles
+            .Include(role => role.UsersList).ToListAsync()
             :
             throw new Exception("There is No Roles"); ;
             return roles;

@@ -25,7 +25,10 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
         {
             var orders = _appDbContext.Orders.Any()
             ?
-            await _appDbContext.Orders.ToListAsync()
+            await _appDbContext.Orders
+            .Include(order => order.OrderDetailsList)
+            .ThenInclude(orderDetail => orderDetail.AssociatedProduct)
+            .ToListAsync()
             :
             throw new Exception("There is no orders");
             return orders;
@@ -33,7 +36,10 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
 
         public async Task<OrderDto> GetOrderByIdAsync(Guid id)
         {
-            var foundOrder = await _appDbContext.Orders.FindAsync(id)
+            var foundOrder = await _appDbContext.Orders
+            .Include(order => order.OrderDetailsList)
+            .ThenInclude(orderDetail => orderDetail.AssociatedProduct)
+            .FirstOrDefaultAsync(order => order.ID == id)
             ?? throw new Exception("Order not found");
             return _mapper.Map<OrderDto>(foundOrder);
         }
@@ -61,7 +67,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             }
             await _appDbContext.Orders.AddAsync(order);
             await _appDbContext.SaveChangesAsync();
-            return _mapper.Map<OrderDto>(order);
+            return await GetOrderByIdAsync(order.ID);
         }
 
         public async Task<bool> DeleteOrderAsync(Guid Id)

@@ -25,7 +25,11 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
         {
             var stores = _appDbContext.Stores.Any()
             ?
-            await _appDbContext.Stores.ToListAsync()
+            await _appDbContext.Stores
+            .Include(store => store.AssociatedInventory)
+            .Include(store => store.ProductsList)
+            .Include(store => store.OrdersList)
+            .ToListAsync()
             :
             throw new Exception("there is no Stores");
             return stores;
@@ -33,7 +37,11 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
 
         public async Task<StoreDto> GetStoreByIdAsync(Guid id)
         {
-            var foundStore = await _appDbContext.Stores.Include(store => store.AssociatedUser).FirstOrDefaultAsync(store => store.ID == id)
+            var foundStore = await _appDbContext.Stores
+            .Include(store => store.AssociatedInventory)
+            .Include(store => store.ProductsList)
+            .Include(store => store.OrdersList)
+            .FirstOrDefaultAsync(store => store.ID == id)
             ?? throw new Exception("Store was not found");
             return _mapper.Map<StoreDto>(foundStore);
         }
@@ -43,7 +51,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             var createdStore = _mapper.Map<Store>(newStore);
             await _appDbContext.AddAsync(createdStore);
             await _appDbContext.SaveChangesAsync();
-            return _mapper.Map<StoreDto>(createdStore);
+            return await GetStoreByIdAsync(createdStore.ID);
         }
 
         public async Task<StoreDto?> UpdateStoreAsync(Guid id, StoreUpdateDto updatedStore)
@@ -54,7 +62,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             foundStore.UpdatedAt = DateTime.UtcNow;
             _appDbContext.Update(foundStore);
             await _appDbContext.SaveChangesAsync();
-            return _mapper.Map<StoreDto>(foundStore);
+            return await GetStoreByIdAsync(foundStore.ID);
         }
 
         public async Task<bool> DeleteStoreAsync(Guid id)

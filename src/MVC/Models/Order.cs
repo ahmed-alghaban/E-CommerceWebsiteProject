@@ -8,7 +8,8 @@ namespace ECommerceProject.src.Models
     {
         public int OrderNumber { get; set; }
         public Guid UserID { get; set; }
-        public User? AssociatedUser { get; set; }
+        [JsonIgnore]
+        public User AssociatedUser { get; set; }
         public Guid StoreID { get; set; }
         [JsonIgnore]
         public Store? AssociatedStore { get; set; }
@@ -16,7 +17,6 @@ namespace ECommerceProject.src.Models
         [JsonIgnore]
         public Payment? AssociatedPayment { get; set; }
         public decimal TotalAmount { get; set; }
-        [JsonIgnore]
         public ICollection<OrderDetail> OrderDetailsList { get; set; } = new List<OrderDetail>();
         public Order() { }
         public Order(Guid id, DateTime createdAt, DateTime updatedAt) : base(id, createdAt, updatedAt) { }
