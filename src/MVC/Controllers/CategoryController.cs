@@ -19,11 +19,11 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCategories()
+        public async Task<IActionResult> GetCategories([FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             try
             {
-                var categories = await _categoryService.GetAllCategoriesAsync();
+                var categories = await _categoryService.GetAllCategoriesAsync(pageNumber, pageSize);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,

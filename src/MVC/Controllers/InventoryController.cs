@@ -17,11 +17,11 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllInventory()
+        public async Task<IActionResult> GetAllInventory([FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             try
             {
-                var inventories = await _inventoryService.GetAllInventoriesAsync();
+                var inventories = await _inventoryService.GetAllInventoriesAsync(pageNumber, pageSize);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,

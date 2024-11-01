@@ -17,11 +17,11 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllProducts()
+        public async Task<IActionResult> GetAllProducts([FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             try
             {
-                var products = await _productService.GetAllProductsAsync();
+                var products = await _productService.GetAllProductsAsync(pageNumber, pageSize);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
