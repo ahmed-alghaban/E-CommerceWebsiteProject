@@ -5,7 +5,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Abstarction
 {
     public interface IProductService
     {
-        Task<List<Product>> GetAllProductsAsync();
+        Task<List<Product>> GetAllProductsAsync(int pageNumber, int pageSize);
         Task<ProductDto> GetProductByIdAsync(Guid id);
         Task<ProductDto> CreateProductAsync(ProductCreateDto newProduct);
         Task<ProductDto?> UpdateProductAsync(Guid id, ProductUpdateDto updatedProduct);

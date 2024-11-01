@@ -6,7 +6,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Abstarction
     public interface ICategoryService
     {
 
-        Task<List<Category>> GetAllCategoriesAsync();
+        Task<List<Category>> GetAllCategoriesAsync(int pageNumber, int pageSize);
         Task<CategoryDto> GetCategoryByIdAsync(Guid id);
         Task<CategoryDto> CreateCategoryAsync(CategoryCreateDto newCategory);
         Task<CategoryDto?> UpdateCategoryAsync(Guid id, CategoryUpdateDto updatedCategory);

@@ -3,6 +3,7 @@ using E_CommerceWebsiteProject.src.MVC.Abstarction;
 using E_CommerceWebsiteProject.src.MVC.Dtos.OrderDetails;
 using E_CommerceWebsiteProject.src.MVC.Dtos.Orders;
 using E_CommerceWebsiteProject.src.MVC.Dtos.Products;
+using E_CommerceWebsiteProject.src.MVC.Utilities;
 using ECommerceProject.Migrations;
 using ECommerceProject.src.DB;
 using ECommerceProject.src.Models;
@@ -14,14 +15,16 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
     {
         private readonly AppDbContext _appDbContext;
         private readonly IMapper _mapper;
+        private readonly GetUserIDFromToken _getUserIDFromToken;
 
-        public OrderService(AppDbContext appDbContext, IMapper mapper)
+        public OrderService(AppDbContext appDbContext, IMapper mapper, GetUserIDFromToken getUserIDFromToken)
         {
             _appDbContext = appDbContext;
             _mapper = mapper;
+            _getUserIDFromToken = getUserIDFromToken;
         }
 
-        public async Task<List<Order>> GetAllOrdersAsync()
+        public async Task<List<Order>> GetAllOrdersAsync(int pageNumber, int pageSize)
         {
             var orders = _appDbContext.Orders.Any()
             ?
@@ -31,7 +34,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             .ToListAsync()
             :
             throw new Exception("There is no orders");
-            return orders;
+            return await PaginationSearch.PaginationAsync(orders, pageNumber, pageSize);
         }
 
         public async Task<OrderDto> GetOrderByIdAsync(Guid id)
@@ -49,7 +52,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             var order = new Order
             {
                 OrderNumber = newOrder.OrderNumber,
-                UserID = newOrder.UserID,
+                UserID = _getUserIDFromToken.GetCurrentUserId(),
                 StoreID = newOrder.StoreID,
                 Status = newOrder.Status,
                 TotalAmount = newOrder.TotalAmount,

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using E_CommerceWebsiteProject.MVC.Abstarction;
 using E_CommerceWebsiteProject.src.MVC.Dtos.Stores;
+using E_CommerceWebsiteProject.src.MVC.Utilities;
 using ECommerceProject.src.DB;
 using ECommerceProject.src.Models;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +22,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             _appDbContext = appDbContext;
         }
 
-        public async Task<List<Store>> GetAllStoresAsync()
+        public async Task<List<Store>> GetAllStoresAsync(int pageNumber, int pageSize)
         {
             var stores = _appDbContext.Stores.Any()
             ?
@@ -32,7 +33,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             .ToListAsync()
             :
             throw new Exception("there is no Stores");
-            return stores;
+            return await PaginationSearch.PaginationAsync(stores, pageNumber, pageSize);
         }
 
         public async Task<StoreDto> GetStoreByIdAsync(Guid id)

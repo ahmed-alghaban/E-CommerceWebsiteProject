@@ -1,6 +1,7 @@
 using AutoMapper;
 using E_CommerceWebsiteProject.MVC.Dtos.Categories;
 using E_CommerceWebsiteProject.src.MVC.Abstarction;
+using E_CommerceWebsiteProject.src.MVC.Utilities;
 using ECommerceProject.src.DB;
 using ECommerceProject.src.Models;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             _mapper = mapper;
         }
 
-        public async Task<List<Category>> GetAllCategoriesAsync()
+        public async Task<List<Category>> GetAllCategoriesAsync(int pageNumber, int pageSize)
         {
             var categories = _appDbContext.Categories.Any()
             ?
@@ -26,7 +27,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             .ToListAsync()
             :
             throw new Exception("There is No Categories");
-            return categories;
+            return await PaginationSearch.PaginationAsync(categories, pageNumber, pageSize);
         }
 
         public async Task<CategoryDto> GetCategoryByIdAsync(Guid id)

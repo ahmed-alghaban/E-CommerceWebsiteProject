@@ -1,6 +1,7 @@
 using AutoMapper;
 using E_CommerceWebsiteProject.src.MVC.Abstarction;
 using E_CommerceWebsiteProject.src.MVC.Dtos.Inventories;
+using E_CommerceWebsiteProject.src.MVC.Utilities;
 using ECommerceProject.src.DB;
 using ECommerceProject.src.Models;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             _mapper = mapper;
         }
 
-        public async Task<List<Inventory>> GetAllInventoriesAsync()
+        public async Task<List<Inventory>> GetAllInventoriesAsync(int pageNumber, int pageSize)
         {
             var inventories = _appDbContext.Inventories.Any()
             ?
@@ -27,7 +28,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             .ToListAsync()
             :
             throw new Exception("There is no inventories");
-            return inventories;
+            return await PaginationSearch.PaginationAsync(inventories, pageNumber, pageSize);
         }
 
         public async Task<InventoryDto> GetInventoryByIdAsync(Guid id)

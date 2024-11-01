@@ -13,15 +13,14 @@ namespace E_CommerceWebsiteProject.MVC.Services
     {
         private readonly AppDbContext _appDbContext;
         private readonly IMapper _mapper;
-        private readonly GetUserIDFromToken _getUserIDFromToken;
-        public UserService(AppDbContext appDbContext, IMapper mapper , GetUserIDFromToken GetUserIdFromToken)
+
+        public UserService(AppDbContext appDbContext, IMapper mapper)
         {
             _appDbContext = appDbContext;
             _mapper = mapper;
-            _getUserIDFromToken = GetUserIdFromToken;
         }
 
-        public async Task<List<User>> GetAllUsersAsync()
+        public async Task<List<User>> GetAllUsersAsync(int pageNumber, int pageSize)
         {
             var users = _appDbContext.Users.Any()
             ?
@@ -33,7 +32,7 @@ namespace E_CommerceWebsiteProject.MVC.Services
             .ToListAsync()
             :
             throw new Exception("There is no users");
-            return users;
+            return await PaginationSearch.PaginationAsync(users, pageNumber, pageSize);
         }
 
         public async Task<UserDto> GetUserByIdAsync(Guid id)

@@ -5,7 +5,7 @@ namespace E_CommerceWebsiteProject.MVC.Abstarction
 {
     public interface IRoleService
     {
-        Task<List<Role>> GetAllRolesAsync();
+        Task<List<Role>> GetAllRolesAsync(int pageNumber, int pageSize);
         Task<RoleDto> GetRoleByIdAsync(Guid id);
         Task<RoleDto> CreateRoleAsync(RoleCreateDto newRole);
         Task<RoleDto?> UpdateRoleAsync(Guid id, RoleUpdateDto updatedRole);

@@ -22,7 +22,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
 
         }
 
-        public async Task<List<Product>> GetAllProductsAsync()
+        public async Task<List<Product>> GetAllProductsAsync(int pageNumber, int pageSize)
         {
             var products = _appDbContext.Products.Any()
             ?
@@ -32,7 +32,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             .ToListAsync()
             :
             throw new Exception("there is no products");
-            return products;
+            return await PaginationSearch.PaginationAsync(products, pageNumber, pageSize);
         }
 
         public async Task<ProductDto> GetProductByIdAsync(Guid id)

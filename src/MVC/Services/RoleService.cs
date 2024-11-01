@@ -1,6 +1,7 @@
 using AutoMapper;
 using E_CommerceWebsiteProject.MVC.Abstarction;
 using E_CommerceWebsiteProject.MVC.Dtos.Roles;
+using E_CommerceWebsiteProject.src.MVC.Utilities;
 using ECommerceProject.src.DB;
 using ECommerceProject.src.Models;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,7 @@ namespace E_CommerceWebsiteProject.MVC.Services
             _mapper = mapper;
         }
 
-        public async Task<List<Role>> GetAllRolesAsync()
+        public async Task<List<Role>> GetAllRolesAsync(int pageNumber, int pageSize)
         {
             var roles = _appDbContext.Roles.Any()
             ?
@@ -25,7 +26,7 @@ namespace E_CommerceWebsiteProject.MVC.Services
             .Include(role => role.UsersList).ToListAsync()
             :
             throw new Exception("There is No Roles"); ;
-            return roles;
+            return await PaginationSearch.PaginationAsync(roles, pageNumber, pageSize);
         }
         public async Task<RoleDto> GetRoleByIdAsync(Guid id)
         {

@@ -5,7 +5,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Abstarction
 {
     public interface IOrderService
     {
-        Task<List<Order>> GetAllOrdersAsync();
+        Task<List<Order>> GetAllOrdersAsync(int pageNumber, int pageSize);
         Task<OrderDto> GetOrderByIdAsync(Guid id);
         Task<OrderDto> CreateOrderAsync(OrderCreateDto newOrder);
         // Task<OrderDto?> UpdateInventoryAsync(Guid id, OrderUpdateDto updatedOrder);
