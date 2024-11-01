@@ -19,7 +19,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCategories([FromQuery] int pageNumber, [FromQuery] int pageSize)
+        public async Task<IActionResult> GetCategories([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
         {
             try
             {
@@ -30,6 +30,8 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
                     Message = "operation done successfully",
                     Data = new
                     {
+                        PageNumber = pageNumber,
+                        PageSize = pageSize,
                         userData = categories
                     }
                 };

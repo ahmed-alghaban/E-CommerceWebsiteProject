@@ -17,7 +17,7 @@ namespace E_CommerceWebsiteProject.MVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllRoles([FromQuery] int pageNumber, [FromQuery] int pageSize)
+        public async Task<IActionResult> GetAllRoles([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
         {
             try
             {
@@ -28,6 +28,8 @@ namespace E_CommerceWebsiteProject.MVC.Controllers
                     Message = "operation done successfully",
                     Data = new
                     {
+                        PageNumber = pageNumber,
+                        PageSize = pageSize,
                         userData = roles
                     }
                 };
