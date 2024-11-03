@@ -20,7 +20,7 @@ namespace E_CommerceWebsiteProject.MVC.Services
             _mapper = mapper;
         }
 
-        public async Task<List<User>> GetAllUsersAsync(int pageNumber, int pageSize)
+        public async Task<PaginationResponse<User>> GetAllUsersAsync(int pageNumber, int pageSize)
         {
             var users = _appDbContext.Users.Any()
             ?

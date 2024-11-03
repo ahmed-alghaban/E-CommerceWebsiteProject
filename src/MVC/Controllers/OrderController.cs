@@ -28,8 +28,6 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
                     Message = "operation done successfully",
                     Data = new
                     {
-                        PageNumber = pageNumber,
-                        PageSize = pageSize,
                         userData = products
                     }
                 };

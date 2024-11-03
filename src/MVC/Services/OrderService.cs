@@ -24,7 +24,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             _getUserIDFromToken = getUserIDFromToken;
         }
 
-        public async Task<List<Order>> GetAllOrdersAsync(int pageNumber, int pageSize)
+        public async Task<PaginationResponse<Order>> GetAllOrdersAsync(int pageNumber, int pageSize)
         {
             var orders = _appDbContext.Orders.Any()
             ?

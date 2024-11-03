@@ -22,7 +22,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             _appDbContext = appDbContext;
         }
 
-        public async Task<List<Store>> GetAllStoresAsync(int pageNumber, int pageSize)
+        public async Task<PaginationResponse<Store>> GetAllStoresAsync(int pageNumber, int pageSize)
         {
             var stores = _appDbContext.Stores.Any()
             ?

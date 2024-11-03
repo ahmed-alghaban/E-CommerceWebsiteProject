@@ -18,7 +18,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             _mapper = mapper;
         }
 
-        public async Task<List<Category>> GetAllCategoriesAsync(int pageNumber, int pageSize)
+        public async Task<PaginationResponse<Category>> GetAllCategoriesAsync(int pageNumber, int pageSize)
         {
             var categories = _appDbContext.Categories.Any()
             ?

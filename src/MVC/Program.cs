@@ -63,7 +63,7 @@ builder.Services.AddAuthentication(options =>
 });
 builder.Services.AddCors(options =>
     {
-        options.AddPolicy("AllowSpecificOrigins", builder =>
+        options.AddPolicy("ReactApp", builder =>
         {
             builder.WithOrigins("http://localhost:5173")
             .AllowAnyMethod()
@@ -76,7 +76,7 @@ app.UseHttpsRedirection();
 app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 app.UseHttpsRedirection();
-app.UseCors("MyAllowSpecificOrigins");
+app.UseCors("ReactApp");
 app.UseAuthentication();
 app.UseAuthorization();
 app.Run();

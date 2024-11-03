@@ -1,6 +1,7 @@
 using E_CommerceWebsiteProject.MVC.Utilities;
 using E_CommerceWebsiteProject.src.MVC.Abstarction;
 using E_CommerceWebsiteProject.src.MVC.Dtos.Products;
+using E_CommerceWebsiteProject.src.MVC.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_CommerceWebsiteProject.src.MVC.Controllers
@@ -28,8 +29,6 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
                     Message = "operation done successfully",
                     Data = new
                     {
-                        PageNumber = pageNumber,
-                        PageSize = pageSize,
                         userData = products
                     }
                 };

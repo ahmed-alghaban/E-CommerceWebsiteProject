@@ -19,7 +19,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             _mapper = mapper;
         }
 
-        public async Task<List<Inventory>> GetAllInventoriesAsync(int pageNumber, int pageSize)
+        public async Task<PaginationResponse<Inventory>> GetAllInventoriesAsync(int pageNumber, int pageSize)
         {
             var inventories = _appDbContext.Inventories.Any()
             ?

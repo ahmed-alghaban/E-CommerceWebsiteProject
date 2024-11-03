@@ -18,7 +18,7 @@ namespace E_CommerceWebsiteProject.MVC.Services
             _mapper = mapper;
         }
 
-        public async Task<List<Role>> GetAllRolesAsync(int pageNumber, int pageSize)
+        public async Task<PaginationResponse<Role>> GetAllRolesAsync(int pageNumber, int pageSize)
         {
             var roles = _appDbContext.Roles.Any()
             ?
