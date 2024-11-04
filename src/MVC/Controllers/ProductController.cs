@@ -18,7 +18,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllProducts([FromQuery] string searchValue, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
+        public async Task<IActionResult> GetAllProducts([FromQuery] string searchValue="", [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
         {
             try
             {
