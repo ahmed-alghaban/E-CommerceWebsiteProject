@@ -17,11 +17,11 @@ namespace E_CommerceWebsiteProject.MVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllRoles([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
+        public async Task<IActionResult> GetAllRoles([FromQuery] string searchValue, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
         {
             try
             {
-                var roles = await _roleService.GetAllRolesAsync(pageNumber, pageSize);
+                var roles = await _roleService.GetAllRolesAsync(pageNumber, pageSize, searchValue);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,

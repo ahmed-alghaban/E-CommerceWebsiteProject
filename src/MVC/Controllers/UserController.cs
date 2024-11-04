@@ -21,11 +21,11 @@ namespace E_CommerceWebsiteProject.MVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllUsers([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
+        public async Task<IActionResult> GetAllUsers([FromQuery] string searchValue, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
         {
             try
             {
-                var user = await _userService.GetAllUsersAsync(pageNumber, pageSize);
+                var user = await _userService.GetAllUsersAsync(pageNumber, pageSize, searchValue);
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
