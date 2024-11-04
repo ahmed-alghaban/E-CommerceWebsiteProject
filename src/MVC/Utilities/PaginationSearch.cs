@@ -15,7 +15,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Utilities
                 PageSize = pageSize,
                 PageNumber = pageNumber,
                 TotalOfPages = (int)Math.Ceiling(toUseList.Count() / (double)pageSize),
-                Data = await Task.Run(() => toUseList.Skip(itemsToSkip).Take(pageSize).ToList())
+                DataObject = await Task.Run(() => toUseList.Skip(itemsToSkip).Take(pageSize).ToList())
             };
         }
     }

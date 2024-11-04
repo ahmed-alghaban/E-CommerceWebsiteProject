@@ -5,7 +5,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Utilities
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
         public int TotalOfPages { get; set; }
-        public List<T>? Data { get; set; }
+        public List<T>? DataObject { get; set; }
 
     }
 }
