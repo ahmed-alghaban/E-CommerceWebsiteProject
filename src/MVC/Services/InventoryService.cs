@@ -19,7 +19,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             _mapper = mapper;
         }
 
-        public async Task<PaginationResponse<Inventory>> GetAllInventoriesAsync(int pageNumber, int pageSize)
+        public async Task<PaginationResponse<Inventory>> GetAllInventoriesAsync(int pageNumber, int pageSize, string searchValue)
         {
             var inventories = _appDbContext.Inventories.Any()
             ?
@@ -28,6 +28,15 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             .ToListAsync()
             :
             throw new Exception("There is no inventories");
+
+            if (string.IsNullOrEmpty(searchValue))
+            {
+                inventories = await _appDbContext.Inventories
+                .Where(inventory => inventory.InventoryName.Contains(searchValue))
+                .Include(inventory => inventory.ProductsList)
+                 .ToListAsync();
+                return await PaginationSearch.PaginationAsync(inventories, pageNumber, pageSize);
+            }
             return await PaginationSearch.PaginationAsync(inventories, pageNumber, pageSize);
         }
 

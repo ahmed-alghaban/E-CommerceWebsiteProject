@@ -18,14 +18,24 @@ namespace E_CommerceWebsiteProject.MVC.Services
             _mapper = mapper;
         }
 
-        public async Task<PaginationResponse<Role>> GetAllRolesAsync(int pageNumber, int pageSize)
+        public async Task<PaginationResponse<Role>> GetAllRolesAsync(int pageNumber, int pageSize, string searchValue)
         {
             var roles = _appDbContext.Roles.Any()
             ?
             await _appDbContext.Roles
             .Include(role => role.UsersList).ToListAsync()
             :
-            throw new Exception("There is No Roles"); ;
+            throw new Exception("There is No Roles");
+
+            if (string.IsNullOrEmpty(searchValue))
+            {
+                roles = await _appDbContext.Roles
+                .Include(role => role.UsersList)
+                .Where(role => role.RoleName.Contains(searchValue))
+                .ToListAsync();
+                
+                return await PaginationSearch.PaginationAsync(roles, pageNumber, pageSize);
+            }
             return await PaginationSearch.PaginationAsync(roles, pageNumber, pageSize);
         }
         public async Task<RoleDto> GetRoleByIdAsync(Guid id)

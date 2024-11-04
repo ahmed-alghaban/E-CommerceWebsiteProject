@@ -20,7 +20,7 @@ namespace E_CommerceWebsiteProject.MVC.Services
             _mapper = mapper;
         }
 
-        public async Task<PaginationResponse<User>> GetAllUsersAsync(int pageNumber, int pageSize)
+        public async Task<PaginationResponse<User>> GetAllUsersAsync(int pageNumber, int pageSize, string searchValue)
         {
             var users = _appDbContext.Users.Any()
             ?
@@ -32,6 +32,18 @@ namespace E_CommerceWebsiteProject.MVC.Services
             .ToListAsync()
             :
             throw new Exception("There is no users");
+
+            if (string.IsNullOrEmpty(searchValue))
+            {
+                await _appDbContext.Users
+                .Where(user => user.FirstName.Contains(searchValue))
+                .Include(user => user.OrdersList)
+                .ThenInclude(order => order.OrderDetailsList)
+                .ThenInclude(order => order.AssociatedProduct)
+                .ThenInclude(product => product.AssociatedStore)
+                .ToListAsync();
+                return await PaginationSearch.PaginationAsync(users, pageNumber, pageSize);
+            }
             return await PaginationSearch.PaginationAsync(users, pageNumber, pageSize);
         }
 

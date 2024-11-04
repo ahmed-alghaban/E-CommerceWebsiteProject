@@ -22,7 +22,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             _appDbContext = appDbContext;
         }
 
-        public async Task<PaginationResponse<Store>> GetAllStoresAsync(int pageNumber, int pageSize)
+        public async Task<PaginationResponse<Store>> GetAllStoresAsync(int pageNumber, int pageSize, string searchValue)
         {
             var stores = _appDbContext.Stores.Any()
             ?
@@ -33,6 +33,17 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             .ToListAsync()
             :
             throw new Exception("there is no Stores");
+
+            if (string.IsNullOrEmpty(searchValue))
+            {
+                stores = await _appDbContext.Stores
+                .Include(store => store.AssociatedInventory)
+                .Include(store => store.ProductsList)
+                .Include(store => store.OrdersList)
+                .Where(store => store.StoreName.Contains(searchValue))
+                .ToListAsync();
+                return await PaginationSearch.PaginationAsync(stores, pageNumber, pageSize);
+            }
             return await PaginationSearch.PaginationAsync(stores, pageNumber, pageSize);
         }
 

@@ -18,7 +18,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             _mapper = mapper;
         }
 
-        public async Task<PaginationResponse<Category>> GetAllCategoriesAsync(int pageNumber, int pageSize)
+        public async Task<PaginationResponse<Category>> GetAllCategoriesAsync(int pageNumber, int pageSize, string searchValue)
         {
             var categories = _appDbContext.Categories.Any()
             ?
@@ -27,6 +27,17 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             .ToListAsync()
             :
             throw new Exception("There is No Categories");
+
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                categories = await _appDbContext.Categories
+                .Include(category => category.ProductsList)
+                .Where(category => category.CategoryName.Contains(searchValue))
+                .ToListAsync();
+
+                return await PaginationSearch.PaginationAsync(categories, pageNumber, pageSize);
+            }
+
             return await PaginationSearch.PaginationAsync(categories, pageNumber, pageSize);
         }
 

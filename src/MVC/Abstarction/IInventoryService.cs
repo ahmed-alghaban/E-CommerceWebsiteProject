@@ -6,7 +6,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Abstarction
 {
     public interface IInventoryService
     {
-        Task<PaginationResponse<Inventory>> GetAllInventoriesAsync(int pageNumber, int pageSize);
+        Task<PaginationResponse<Inventory>> GetAllInventoriesAsync(int pageNumber, int pageSize, string searchValue);
         Task<InventoryDto> GetInventoryByIdAsync(Guid id);
         Task<InventoryDto> CreateInventoryAsync(InventoryCreateDto newInventory);
         Task<InventoryDto?> UpdateInventoryAsync(Guid id, InventoryUpdateDto updatedInventory);

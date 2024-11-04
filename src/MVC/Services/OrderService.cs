@@ -1,3 +1,4 @@
+using System.Linq;
 using AutoMapper;
 using E_CommerceWebsiteProject.src.MVC.Abstarction;
 using E_CommerceWebsiteProject.src.MVC.Dtos.OrderDetails;
@@ -24,7 +25,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             _getUserIDFromToken = getUserIDFromToken;
         }
 
-        public async Task<PaginationResponse<Order>> GetAllOrdersAsync(int pageNumber, int pageSize)
+        public async Task<PaginationResponse<Order>> GetAllOrdersAsync(int pageNumber, int pageSize, string searchValue)
         {
             var orders = _appDbContext.Orders.Any()
             ?
@@ -34,6 +35,17 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             .ToListAsync()
             :
             throw new Exception("There is no orders");
+
+            if (string.IsNullOrEmpty(searchValue))
+            {
+                orders = await _appDbContext.Orders
+                .Where(order => order.OrderNumber.ToString().Contains(searchValue))
+                .Include(order => order.OrderDetailsList)
+                .ThenInclude(orderDetail => orderDetail.AssociatedProduct)
+                .ToListAsync();
+                return await PaginationSearch.PaginationAsync(orders, pageNumber, pageSize);
+
+            }
             return await PaginationSearch.PaginationAsync(orders, pageNumber, pageSize);
         }
 

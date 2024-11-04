@@ -8,7 +8,7 @@ namespace E_CommerceWebsiteProject.MVC.Abstarction
     public interface IUserService
     {
 
-        Task<PaginationResponse<User>> GetAllUsersAsync(int pageNumber, int pageSize);
+        Task<PaginationResponse<User>> GetAllUsersAsync(int pageNumber, int pageSize, string searchValue);
         Task<UserDto> GetUserByIdAsync(Guid id);
         Task<UserDto> CreateUserAsync(UserCreateDto newUser);
         Task<UserDto?> UpdateUserAsync(Guid id, UserUpdateDto updatedUser);

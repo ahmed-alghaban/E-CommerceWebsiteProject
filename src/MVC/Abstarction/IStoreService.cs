@@ -10,7 +10,7 @@ namespace E_CommerceWebsiteProject.MVC.Abstarction
 {
     public interface IStoreService
     {
-        Task<PaginationResponse<Store>> GetAllStoresAsync(int pageNumber, int pageSize);
+        Task<PaginationResponse<Store>> GetAllStoresAsync(int pageNumber, int pageSize, string searchValue);
         Task<StoreDto> GetStoreByIdAsync(Guid id);
         Task<StoreDto> CreateStoreAsync(StoreCreateDto newStore);
         Task<StoreDto?> UpdateStoreAsync(Guid id, StoreUpdateDto updatedStore);
