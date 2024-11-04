@@ -33,14 +33,14 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             :
             throw new Exception("there is no products");
 
-            if (string.IsNullOrEmpty(searchValue))
+            if (!string.IsNullOrEmpty(searchValue))
             {
-                products = await _appDbContext.Products
+                var productSearch = await _appDbContext.Products
                 .Include(product => product.ImageList)
                 .Include(product => product.AssociatedStore)
                 .Where(product => product.ProductName.Contains(searchValue))
                 .ToListAsync();
-                return await PaginationSearch.PaginationAsync(products, pageNumber, pageSize);
+                return await PaginationSearch.PaginationAsync(productSearch, pageNumber, pageSize);
             }
             return await PaginationSearch.PaginationAsync(products, pageNumber, pageSize);
         }

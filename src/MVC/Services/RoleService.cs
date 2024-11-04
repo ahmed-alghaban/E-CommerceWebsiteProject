@@ -27,7 +27,7 @@ namespace E_CommerceWebsiteProject.MVC.Services
             :
             throw new Exception("There is No Roles");
 
-            if (string.IsNullOrEmpty(searchValue))
+            if (!string.IsNullOrEmpty(searchValue))
             {
                 roles = await _appDbContext.Roles
                 .Include(role => role.UsersList)

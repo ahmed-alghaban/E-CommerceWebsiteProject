@@ -34,7 +34,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             :
             throw new Exception("there is no Stores");
 
-            if (string.IsNullOrEmpty(searchValue))
+            if (!string.IsNullOrEmpty(searchValue))
             {
                 stores = await _appDbContext.Stores
                 .Include(store => store.AssociatedInventory)

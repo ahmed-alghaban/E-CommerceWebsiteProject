@@ -36,7 +36,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             :
             throw new Exception("There is no orders");
 
-            if (string.IsNullOrEmpty(searchValue))
+            if (!string.IsNullOrEmpty(searchValue))
             {
                 orders = await _appDbContext.Orders
                 .Where(order => order.OrderNumber.ToString().Contains(searchValue))

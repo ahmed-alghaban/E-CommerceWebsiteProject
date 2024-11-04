@@ -29,7 +29,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             :
             throw new Exception("There is no inventories");
 
-            if (string.IsNullOrEmpty(searchValue))
+            if (!string.IsNullOrEmpty(searchValue))
             {
                 inventories = await _appDbContext.Inventories
                 .Where(inventory => inventory.InventoryName.Contains(searchValue))

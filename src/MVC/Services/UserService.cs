@@ -33,7 +33,7 @@ namespace E_CommerceWebsiteProject.MVC.Services
             :
             throw new Exception("There is no users");
 
-            if (string.IsNullOrEmpty(searchValue))
+            if (!string.IsNullOrEmpty(searchValue))
             {
                 await _appDbContext.Users
                 .Where(user => user.FirstName.Contains(searchValue))
