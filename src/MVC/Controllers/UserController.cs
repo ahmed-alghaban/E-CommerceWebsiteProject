@@ -21,7 +21,7 @@ namespace E_CommerceWebsiteProject.MVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllUsers([FromQuery] string searchValue="", [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
+        public async Task<IActionResult> GetAllUsers([FromQuery] string searchValue = "", [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
         {
             try
             {
@@ -39,13 +39,7 @@ namespace E_CommerceWebsiteProject.MVC.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ApiResponse<object>
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-                return BadRequest(response);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -68,13 +62,7 @@ namespace E_CommerceWebsiteProject.MVC.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ApiResponse<object>
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-                return BadRequest(response);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -94,13 +82,7 @@ namespace E_CommerceWebsiteProject.MVC.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ApiResponse<object>
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Data = user
-                };
-                return BadRequest(response);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -120,30 +102,31 @@ namespace E_CommerceWebsiteProject.MVC.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ApiResponse<object>
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-                return BadRequest(response);
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
-            var isDeleted = await _userService.DeleteUserAsync(id);
-            var response = new ApiResponse<object>
+            try
             {
-                IsSuccess = isDeleted,
-                Message = isDeleted ? "User Deleted Successfully" : "Failed to Delete User",
-                Data = new
+                var isDeleted = await _userService.DeleteUserAsync(id);
+                var response = new ApiResponse<object>
                 {
-                    Deleted = isDeleted
-                }
-            };
-            return StatusCode(isDeleted ? 204 : 400, response);
+                    IsSuccess = isDeleted,
+                    Message = isDeleted ? "User Deleted Successfully" : "Failed to Delete User",
+                    Data = new
+                    {
+                        Deleted = isDeleted
+                    }
+                };
+                return StatusCode(isDeleted ? 204 : 400, response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
         }
     }

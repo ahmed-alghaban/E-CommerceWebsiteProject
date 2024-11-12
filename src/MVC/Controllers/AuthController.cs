@@ -8,7 +8,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
 {
     [ApiController]
     [Route("/api/auth")]
-    public class AuthController :ControllerBase
+    public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
         public AuthController(IAuthService authService)
@@ -28,17 +28,11 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
                     Message = "User Added Successfully",
                     Data = user
                 };
-                return CreatedAtAction(nameof(Register),response);
+                return CreatedAtAction(nameof(Register), response);
             }
             catch (Exception ex)
             {
-                var response = new ApiResponse<object>
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-                return BadRequest(response);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -61,13 +55,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ApiResponse<object>
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-                return BadRequest(response);
+                return BadRequest(ex.Message);
             }
         }
     }

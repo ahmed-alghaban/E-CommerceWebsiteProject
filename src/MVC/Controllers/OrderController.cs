@@ -17,7 +17,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllOrders([FromQuery] string searchValue="", [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
+        public async Task<IActionResult> GetAllOrders([FromQuery] string searchValue = "", [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
         {
             try
             {
@@ -35,13 +35,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ApiResponse<object>
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-                return BadRequest(response);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -64,13 +58,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ApiResponse<object>
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-                return BadRequest(response);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -90,30 +78,31 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ApiResponse<object>
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-                return BadRequest(response);
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteOrder(Guid id)
         {
-            var isDeleted = await _orderService.DeleteOrderAsync(id);
-            var response = new ApiResponse<object>
+            try
             {
-                IsSuccess = isDeleted,
-                Message = isDeleted ? "Order Deleted Successfully" : "Order to Delete Inventory",
-                Data = new
+                var isDeleted = await _orderService.DeleteOrderAsync(id);
+                var response = new ApiResponse<object>
                 {
-                    Deleted = isDeleted
-                }
-            };
-            return StatusCode(isDeleted ? 204 : 400, response);
+                    IsSuccess = isDeleted,
+                    Message = isDeleted ? "Order Deleted Successfully" : "Order to Delete Inventory",
+                    Data = new
+                    {
+                        Deleted = isDeleted
+                    }
+                };
+                return StatusCode(isDeleted ? 204 : 400, response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

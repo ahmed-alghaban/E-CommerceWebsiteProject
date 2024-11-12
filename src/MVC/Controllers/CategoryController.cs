@@ -19,7 +19,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCategories([FromQuery] string searchValue="", [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
+        public async Task<IActionResult> GetCategories([FromQuery] string searchValue = "", [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
         {
             try
             {
@@ -37,13 +37,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ApiResponse<object>
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-                return BadRequest(response);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -66,13 +60,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ApiResponse<object>
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-                return BadRequest(response);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -92,13 +80,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ApiResponse<object>
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-                return BadRequest(response);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -118,30 +100,31 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ApiResponse<object>
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-                return BadRequest(response);
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteCategory(Guid id)
         {
-            var isDeleted = await _categoryService.DeleteCategoryAsync(id);
-            var response = new ApiResponse<object>
+            try
             {
-                IsSuccess = isDeleted,
-                Message = isDeleted ? "Category Deleted Successfully" : "Failed to Delete Category",
-                Data = new
+                var isDeleted = await _categoryService.DeleteCategoryAsync(id);
+                var response = new ApiResponse<object>
                 {
-                    Deleted = isDeleted
-                }
-            };
-            return StatusCode(isDeleted ? 204 : 400, response);
+                    IsSuccess = isDeleted,
+                    Message = isDeleted ? "Category Deleted Successfully" : "Failed to Delete Category",
+                    Data = new
+                    {
+                        Deleted = isDeleted
+                    }
+                };
+                return StatusCode(isDeleted ? 204 : 400, response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

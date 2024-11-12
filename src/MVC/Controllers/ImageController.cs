@@ -39,13 +39,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ApiResponse<object>
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-                return BadRequest(response);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -68,13 +62,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ApiResponse<object>
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-                return BadRequest(response);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -94,13 +82,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ApiResponse<object>
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-                return BadRequest(response);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -120,30 +102,30 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ApiResponse<object>
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-                return BadRequest(response);
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteImage(Guid id)
         {
-            var isDeleted = await _imageService.DeleteImageAsync(id);
-            var response = new ApiResponse<object>
+            try
             {
-                IsSuccess = isDeleted,
-                Message = isDeleted ? "Image Deleted Successfully" : "Failed to Delete Image",
-                Data = new
+                var isDeleted = await _imageService.DeleteImageAsync(id);
+                var response = new ApiResponse<object>
                 {
-                    Deleted = isDeleted
-                }
-            };
-            return StatusCode(isDeleted ? 204 : 400, response);
+                    IsSuccess = isDeleted,
+                    Message = isDeleted ? "Image Deleted Successfully" : "Failed to Delete Image",
+                    Data = new
+                    {
+                        Deleted = isDeleted
+                    }
+                };
+                return StatusCode(isDeleted ? 204 : 400, response);
+            }
+            catch(Exception ex){
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
