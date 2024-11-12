@@ -8,7 +8,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Dtos.Orders
     public class OrderCreateDto
     {
         [Required(ErrorMessage = "Order number is required")]
-        public int OrderNumber { get; set; }
+        public long OrderNumber { get; set; }
         [Required(ErrorMessage = "User identity is required")]
         public Guid UserID { get; set; }
         [Required(ErrorMessage = "Store identity is required")]

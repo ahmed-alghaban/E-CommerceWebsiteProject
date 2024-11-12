@@ -6,7 +6,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Dtos.Orders
 {
     public class OrderUpdateDto
     {
-        public int OrderNumber { get; set; }
+        public long OrderNumber { get; set; }
         public Guid UserID { get; set; }
         public Guid StoreID { get; set; }
         public string? Status { get; set; }

@@ -6,7 +6,7 @@ namespace ECommerceProject.src.Models
 {
     public class Order : BaseClass
     {
-        public int OrderNumber { get; set; }
+        public long OrderNumber { get; set; }
         public Guid UserID { get; set; }
         [JsonIgnore]
         public User AssociatedUser { get; set; }

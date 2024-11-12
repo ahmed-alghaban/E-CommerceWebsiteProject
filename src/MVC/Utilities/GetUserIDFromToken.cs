@@ -13,6 +13,8 @@ namespace E_CommerceWebsiteProject.src.MVC.Utilities
         {
             var userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier)
             ?? throw new UnauthorizedAccessException("User ID not found in the token.");
+            Console.WriteLine($"================={userId}=================");
+            
             return Guid.Parse(userId);
         }
     }

@@ -51,7 +51,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
                 var response = new ApiResponse<object>
                 {
                     IsSuccess = true,
-                    Message = "Logged in Successfully",
+                    Message = "",
                     Data = new
                     {
                         userData = token
