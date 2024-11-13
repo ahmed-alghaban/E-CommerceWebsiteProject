@@ -30,6 +30,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             var orders = _appDbContext.Orders.Any()
             ?
             await _appDbContext.Orders
+            .Include(order => order.AssociatedUser)
             .Include(order => order.OrderDetailsList)
             .ThenInclude(orderDetail => orderDetail.AssociatedProduct)
             .ToListAsync()

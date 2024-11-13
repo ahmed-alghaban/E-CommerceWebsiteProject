@@ -15,6 +15,7 @@ namespace ECommerceProject.src.Models
         public Role AssociatedRole { get; set; }
         [JsonIgnore]
         public Store? StoreOwner { get; set; }
+        [JsonIgnore]
         public List<Order> OrdersList { get; set; } = new List<Order>();
         public User() : base() { }
     }

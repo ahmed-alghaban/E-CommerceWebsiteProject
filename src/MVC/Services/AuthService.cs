@@ -42,9 +42,8 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
             var user = await _appDbContext.Users.FirstOrDefaultAsync(u => u.Email == userLogin.Email);
             if (user == null || !BCrypt.Net.BCrypt.Verify(userLogin.Password, user.Password))
             {
-                return "Email or Password is incorrect";
+                throw new ArgumentException("Email or Password is incorrect");
             }
-
             var token = _generateToken.GenerateJwtToken(user).ToString();
 
             return token;

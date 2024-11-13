@@ -38,6 +38,7 @@ builder.Services.AddScoped<InventoryReadings>();
 builder.Services.AddScoped<GenerateToken>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseNpgsql(defaultConnection));
 builder.Services.AddHttpContextAccessor();

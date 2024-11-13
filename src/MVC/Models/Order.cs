@@ -8,7 +8,6 @@ namespace ECommerceProject.src.Models
     {
         public long OrderNumber { get; set; }
         public Guid UserID { get; set; }
-        [JsonIgnore]
         public User AssociatedUser { get; set; }
         public Guid StoreID { get; set; }
         [JsonIgnore]

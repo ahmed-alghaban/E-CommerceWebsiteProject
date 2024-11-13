@@ -39,13 +39,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ApiResponse<object>
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Data = null
-                };
-                return BadRequest(response);
+                return BadRequest(ex.Message);
             }
         }
 
