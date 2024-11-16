@@ -71,12 +71,20 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowCredentials();
         });
+        options.AddPolicy("Netlify", builder =>
+        {
+            builder.WithOrigins("https://e-commercefree.netlify.app")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();
+        });
     });
 var app = builder.Build();
 app.UseHttpsRedirection();
 app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 app.UseHttpsRedirection();
+app.UseCors("Netlify");
 app.UseCors("ReactApp");
 app.UseAuthentication();
 app.UseAuthorization();
