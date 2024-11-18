@@ -84,7 +84,7 @@ app.UseHttpsRedirection();
 app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 app.UseHttpsRedirection();
-app.UseCors("Netlify");
+// app.UseCors("Netlify");
 app.UseCors("ReactApp");
 app.UseAuthentication();
 app.UseAuthorization();
