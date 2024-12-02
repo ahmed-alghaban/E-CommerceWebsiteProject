@@ -6,6 +6,7 @@ namespace E_CommerceWebsiteProject.src.MVC.Dtos.Orders
 {
     public class OrderDto
     {
+        public Guid OrderID { get; set; }
         public long OrderNumber { get; set; }
         public Guid UserID { get; set; }
         public User AssociatedUser { get; set; }

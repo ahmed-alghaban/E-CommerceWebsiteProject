@@ -14,6 +14,8 @@ namespace E_CommerceWebsiteProject.src.MVC.Dtos.Authorization
         [EmailAddress]
         [MaxLength(100)]
         public string Email { get; set; }
+        [Required(ErrorMessage = "Phone number is Required")]
+        public string PhoneNumber { get; set; } = string.Empty;
         [Required]
         [MinLength(6)]
         public string Password { get; set; }
