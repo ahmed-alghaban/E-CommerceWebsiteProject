@@ -53,6 +53,8 @@ namespace E_CommerceWebsiteProject.src.MVC.Services
         public async Task<OrderDto> GetOrderByIdAsync(Guid id)
         {
             var foundOrder = await _appDbContext.Orders
+            .Include (order => order.AssociatedUser)
+            .Include(order => order.AssociatedStore)
             .Include(order => order.OrderDetailsList)
             .ThenInclude(orderDetail => orderDetail.AssociatedProduct)
             .FirstOrDefaultAsync(order => order.ID == id)
